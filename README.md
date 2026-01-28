@@ -4,7 +4,7 @@ En nettside som gir studenter praktisk veiledning om ansvarlig bruk av AI-verkt�
 
 ## Om prosjektet
 
-AIGuidebook er et semesterprosjekt utviklet for PRO1000 ved USN i Bø. Målet er å gi studenter klare retningslinjer og eksempler på hvordan de kan bruke AI-verktøy som ChatGPT og lignende på en trygg og etisk måte.
+AIGuidebook er et semesterprosjekt utviklet for PRO1000 ved USN i Bø. Målet er å lage en nettside som gir studenter klare retningslinjer og eksempler på hvordan de kan bruke AI-verktøy som ChatGPT og lignende på en trygg og etisk måte. Nettsiden skal også være interaktiv og intuitiv og bruke.
 
 ## Funksjoner
 
@@ -13,3 +13,4 @@ AIGuidebook er et semesterprosjekt utviklet for PRO1000 ved USN i Bø. Målet er
 - Akademisk integritet
 - Interaktive verktøy (simulator, sjekklister, FAQ)
 - Responsivt design for mobil og desktop
+
