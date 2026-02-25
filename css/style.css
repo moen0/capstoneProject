@@ -243,13 +243,14 @@ a {
 }
 
 /* ===== FEATURES SECTION ===== */
+/* ===== FEATURES SECTION ===== */
 .features {
     padding: 100px 24px;
     background: var(--bg-secondary);
 }
 
 .features-container {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
@@ -262,12 +263,16 @@ a {
 }
 
 .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 24px;
 }
 
 .feature-card {
+    flex: 0 1 calc(33.333% - 16px);
+    max-width: 300px;
+    min-width: 250px;
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 12px;
