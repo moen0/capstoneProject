@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="css/style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Registration</title>
     <style>
         /* Flytt hero-innholdet høyere opp på siden */
         .hero {
@@ -126,25 +126,13 @@
             
             <form class="registration-form" id="registrationForm">
                 <div class="form-group">
-                    <label for="fullName" class="form-label">Full Name</label>
+                    <label for="username" class="form-label">Username</label>
                     <input 
                         type="text" 
-                        id="fullName" 
-                        name="fullName" 
+                        id="username" 
+                        name="username" 
                         class="form-input" 
-                        placeholder="John Doe"
-                        required
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label for="email" class="form-label">Email</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        class="form-input" 
-                        placeholder="your.email@example.com"
+                        placeholder="johndoe"
                         required
                     >
                 </div>
@@ -182,5 +170,6 @@
         </div>
     </section>
     
+    <script src="JS/main.js"></script>
 </body>
 </html>
