@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integrity - AIGuidebook</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .hero {
+            min-height: 60vh;
+            padding: calc(var(--nav-height) + 40px) 24px 40px;
+        }
+        .hero-title {
+            font-size: clamp(2rem, 6vw, 3rem);
+            margin-bottom: 16px;
+        }
+        .hero-subtitle {
+            margin-bottom: 24px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar seksjon -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">AIGuidebook</a>
+            
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="guidelines.html" class="nav-link">Guidelines</a></li>
+                <li class="nav-item"><a href="risks.html" class="nav-link">Risks</a></li>
+                <li class="nav-item"><a href="integrity.html" class="nav-link active">Integrity</a></li>
+                <li class="nav-item"><a href="checklist.html" class="nav-link">Checklist</a></li>
+                <!-- Slidende enhet -->
+                <li class="nav-highlight"></li>
+            </ul>
+            
+            <a href="login.html" class="nav-cta">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- Hero seksjon for Integrity -->
+    <section class="hero">
+        <div class="hero-glow"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Academic Integrity</h1>
+            <p class="hero-subtitle">Maintaining ethical standards while leveraging AI in your academic work</p>
+            <div class="hero-buttons">
+                <a href="#content" class="btn btn-primary">Learn About Integrity</a>
+                <a href="index.html" class="btn btn-secondary">Back to Home</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integrity content seksjon -->
+    <section id="content" class="features">
+        <div class="features-container">
+            <h2 class="section-title">Upholding Academic Integrity with AI</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Honest Disclosure</h3>
+                    <p>Always disclose when and how you've used AI tools in your work, following your institution's policies.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📖</div>
+                    <h3>Original Thinking</h3>
+                    <p>Use AI to enhance, not replace, your original thoughts and analysis. Your voice should remain central.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✍️</div>
+                    <h3>Proper Attribution</h3>
+                    <p>Cite AI tools appropriately and distinguish between AI-assisted and original work in your submissions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Critical Evaluation</h3>
+                    <p>Apply critical thinking to all AI outputs. Verify accuracy and ensure content aligns with assignment goals.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Learning Preservation</h3>
+                    <p>Ensure AI use supports learning objectives rather than circumventing the educational process.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚖️</div>
+                    <h3>Policy Compliance</h3>
+                    <p>Stay informed about and comply with your institution's AI policies and honor code requirements.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer del  -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="logo">AIGuidebook</span>
+                <p>Helping students use AI responsibly.</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <a href="#">Lorem ipsum</a>
+                    <a href="#">Lorem ipsum</a>
+                    <a href="#">Lorem ipsum</a>
+                </div>
+                <div class="footer-column">
+                    <h4>About</h4>
+                    <a href="#">Our Mission</a>
+                    <a href="#">FAQ</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 AIGuidebook. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="JS/main.js"></script>
+</body>
+</html>
