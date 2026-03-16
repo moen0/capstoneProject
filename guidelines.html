@@ -9,161 +9,269 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        .hero {
-            min-height: 60vh;
-            padding: calc(var(--nav-height) + 40px) 24px 40px;
-        }
-        .hero-title {
-            font-size: clamp(2rem, 6vw, 3rem);
-            margin-bottom: 16px;
-        }
-        .hero-subtitle {
-            margin-bottom: 24px;
-        }
-
-        /* Guidelines layout */
-        .guidelines-section {
-            max-width: 860px;
-            margin: 60px auto;
-            padding: 0 24px;
-        }
-        .guidelines-section .section-title {
-            margin-bottom: 48px;
-        }
-        .guideline-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 24px;
-            padding: 32px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-        .guideline-row:last-child {
-            border-bottom: none;
-        }
-        .guideline-number {
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            color: var(--accent, #a78bfa);
-            min-width: 28px;
-            padding-top: 4px;
-        }
-        .guideline-icon {
-            font-size: 1.4rem;
-            color: var(--accent, #a78bfa);
-            min-width: 32px;
-            padding-top: 2px;
-        }
-        .guideline-body h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        .guideline-body p {
-            font-size: 0.95rem;
-            line-height: 1.7;
-            opacity: 0.75;
-        }
-    </style>
 </head>
 <body>
 <!-- Navbar -->
 <nav class="navbar">
     <div class="nav-container">
         <a href="index.html" class="logo">Clarify</a>
+
         <ul class="nav-menu">
             <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
             <li class="nav-item"><a href="guidelines.html" class="nav-link active">Guidelines</a></li>
-            <li class="nav-item"><a href="risks.html" class="nav-link">Risks</a></li>
-            <li class="nav-item"><a href="integrity.html" class="nav-link">Integrity</a></li>
             <li class="nav-item"><a href="checklist.html" class="nav-link">Checklist</a></li>
+            <li class="nav-item"><a href="quiz.html" class="nav-link">Quiz</a></li>
+            <li class="nav-item"><a href="prompt.html" class="nav-link">Prompt-helper</a></li>
             <li class="nav-highlight"></li>
         </ul>
+
         <a href="login.html" class="nav-cta">Get Started</a>
     </div>
 </nav>
 
-<!-- Hero -->
-
 <!-- Guidelines content -->
 <section id="content" class="guidelines-section">
-    <h2 class="section-title">AI Usage Guidelines</h2>
+    <h2 class="section-title">Responsible AI Use in Studies</h2>
+    <p class="guidelines-subtitle">A guide for university students</p>
 
-    <div class="guideline-row">
-        <span class="guideline-number">01</span>
-        <div class="guideline-icon"><i class="fa fa-bullseye"></i></div>
-        <div class="guideline-body">
-            <h3>Purpose & Clarity</h3>
-            <p>Always be clear about your purpose when using AI tools. Define specific goals and expected outcomes before beginning.</p>
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="tab active" data-tab="guidelines">Guidelines</button>
+        <button class="tab" data-tab="risks">Risks</button>
+        <button class="tab" data-tab="integrity">Academic Integrity</button>
+    </div>
+
+    <!-- Tab: Guidelines -->
+    <div class="tab-content active" id="guidelines">
+        <div class="accordion-item open">
+            <button class="accordion-header">
+                <span>What is acceptable AI use?</span>
+                <span class="accordion-icon">&#9656;</span>
+            </button>
+            <div class="accordion-body">
+                <p>AI tools can be useful learning aids when used correctly. Acceptable use means using AI to <strong>understand</strong>, not to replace your own thinking.</p>
+                <ul>
+                    <li>Get difficult concepts explained in simple terms</li>
+                    <li>Ask for examples that illustrate theories</li>
+                    <li>Get help debugging code you wrote yourself</li>
+                    <li>Use AI as a conversation partner to test understanding</li>
+                    <li>Get feedback on structure and argumentation</li>
+                </ul>
+                <div class="example good">
+                    <div class="example-label">Acceptable</div>
+                    "Can you explain how recursion works in programming? Give me a simple example so I understand the concept."
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span>What is NOT acceptable use?</span>
+                <span class="accordion-icon">&#9656;</span>
+            </button>
+            <div class="accordion-body">
+                <p>Certain ways of using AI violate academic standards and can have serious consequences for you as a student.</p>
+                <ul>
+                    <li>Asking AI to write all or parts of an assignment for you</li>
+                    <li>Submitting AI generated text as your own work</li>
+                    <li>Asking for answers to exam questions</li>
+                    <li>Using AI to circumvent learning objectives</li>
+                    <li>Copying AI generated code without understanding it</li>
+                </ul>
+                <div class="example bad">
+                    <div class="example-label">Not acceptable</div>
+                    "Write a 2000 word essay about climate change for me."
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span>How to reference AI use?</span>
+                <span class="accordion-icon">&#9656;</span>
+            </button>
+            <div class="accordion-body">
+                <p>If you have used AI as a tool in your work, you should be transparent about it. Many universities now require you to disclose AI use.</p>
+                <p><strong>Examples of referencing:</strong></p>
+                <p><code>Copyright/Company. (Year). Title of tool [LLM]. https://url</code></p>
+                <p><code>OpenAI. (2023). ChatGPT. [LLM]. https://chat.openai.com/</code></p>
+                <p>Always check your university's specific guidelines for how AI use should be documented.</p>
+            </div>
         </div>
     </div>
 
-    <div class="guideline-row">
-        <span class="guideline-number">02</span>
-        <div class="guideline-icon"><i class="fa fa-pencil-square-o"></i></div>
-        <div class="guideline-body">
-            <h3>Transparency</h3>
-            <p>Document your AI usage. Keep records of which tools you used, how you used them, and what content was AI-generated.</p>
+    <!-- Tab: Risks -->
+    <div class="tab-content" id="risks">
+        <div class="accordion-item open">
+            <button class="accordion-header">
+                <span>Hallucination</span>
+                <span class="accordion-icon">&#9656;</span>
+            </button>
+            <div class="accordion-body">
+                <p>AI models can generate information that sounds credible but is completely wrong. This is called <strong>hallucination</strong>.</p>
+                <p>Examples include:</p>
+                <ul>
+                    <li>Fabricated academic sources and references</li>
+                    <li>Incorrect facts presented with confidence</li>
+                    <li>Nonexistent functions in programming languages</li>
+                    <li>Wrong dates, names, or statistics</li>
+                </ul>
+                <p><strong>Consequence:</strong> Submitting an assignment with incorrect sources or facts can affect your grade and academic credibility.</p>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span>Bias and skewed perspectives</span>
+                <span class="accordion-icon">&#9656;</span>
+            </button>
+            <div class="accordion-body">
+                <p>AI models are trained on large amounts of internet data, which can contain biases and prejudices.</p>
+                <p>This can result in:</p>
+                <ul>
+                    <li>Cultural or gender based stereotypes</li>
+                    <li>Western centric perspectives</li>
+                    <li>Outdated or one sided information</li>
+                    <li>Lack of representation of minority perspectives</li>
+                </ul>
+                <p>Be critical of AI generated content, especially on sensitive or controversial topics.</p>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span>Privacy</span>
+                <span class="accordion-icon">&#9656;</span>
+            </button>
+            <div class="accordion-body">
+                <p>When using AI tools, you share data with third party companies. Be aware of what you type in.</p>
+                <p><strong>Do not share:</strong></p>
+                <ul>
+                    <li>Personal information (name, national ID, address)</li>
+                    <li>Sensitive information about other people</li>
+                    <li>Confidential research data</li>
+                    <li>Passwords or security information</li>
+                </ul>
+                <p>The information you share may be used to train future AI models.</p>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span>Reduced learning</span>
+                <span class="accordion-icon">&#9656;</span>
+            </button>
+            <div class="accordion-body">
+                <p>Over reliance on AI can hinder your own intellectual development. Learning happens through trying, failing, and thinking for yourself.</p>
+                <p>If you always ask AI for the answer:</p>
+                <ul>
+                    <li>You do not develop your own problem solving skills</li>
+                    <li>You lose deep understanding of the material</li>
+                    <li>You become less prepared for exams</li>
+                    <li>You struggle when AI is not available</li>
+                </ul>
+            </div>
         </div>
     </div>
 
-    <div class="guideline-row">
-        <span class="guideline-number">03</span>
-        <div class="guideline-icon"><i class="fa fa-check-circle"></i></div>
-        <div class="guideline-body">
-            <h3>Verification</h3>
-            <p>Always verify AI-generated content. Cross-check facts, citations, and information with reliable sources.</p>
+    <!-- Tab: Academic Integrity -->
+    <div class="tab-content" id="integrity">
+        <div class="accordion-item open">
+            <button class="accordion-header">
+                <span>What is academic integrity?</span>
+                <span class="accordion-icon">&#9656;</span>
+            </button>
+            <div class="accordion-body">
+                <p>Academic integrity is about honesty in academic work. It means that the work you submit is your own, and that you give credit to other sources you have used.</p>
+                <p>The core principles are:</p>
+                <ul>
+                    <li><strong>Honesty:</strong> Do not lie about what you have done</li>
+                    <li><strong>Trust:</strong> Teachers trust that the work is yours</li>
+                    <li><strong>Fairness:</strong> All students should have equal conditions</li>
+                    <li><strong>Respect:</strong> Respect others' intellectual work</li>
+                    <li><strong>Responsibility:</strong> Take responsibility for your actions</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span>AI and plagiarism</span>
+                <span class="accordion-icon">&#9656;</span>
+            </button>
+            <div class="accordion-body">
+                <p>Submitting AI generated text as your own work is considered a form of plagiarism at most universities.</p>
+                <p>This applies even if:</p>
+                <ul>
+                    <li>The text is not copied from another student</li>
+                    <li>The AI text is "unique" and does not exist elsewhere</li>
+                    <li>You have made small changes to the text</li>
+                </ul>
+                <p>Many universities now have tools that can detect AI generated text. Consequences can range from a failing grade to suspension.</p>
+            </div>
+        </div>
+
+
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span>The grey area</span>
+                <span class="accordion-icon">&#9656;</span>
+            </button>
+            <div class="accordion-body">
+                <p>Not all AI use is black and white. Here are some grey area situations:</p>
+                <ul>
+                    <li><strong>Language correction:</strong> Often accepted, but check with your teacher</li>
+                    <li><strong>Rephrasing:</strong> Problematic if it significantly changes the content</li>
+                    <li><strong>Idea generation:</strong> Can be fine, but the ideas must be developed yourself</li>
+                    <li><strong>Structure suggestions:</strong> Often accepted as a starting point</li>
+                </ul>
+                <p><strong>Rule of thumb:</strong> If you are unsure, ask your teacher before using AI.</p>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-header">
+                <span>Your responsibility</span>
+                <span class="accordion-icon">&#9656;</span>
+            </button>
+            <div class="accordion-body">
+                <p>As a student, you are responsible for:</p>
+                <ul>
+                    <li>Knowing your university's rules on AI use</li>
+                    <li>Being transparent about how you have used AI</li>
+                    <li>Ensuring the work you submit reflects your own understanding</li>
+                    <li>Being able to explain and defend everything you have written</li>
+                </ul>
+                <p>Ignorance of the rules is not a valid excuse. Take responsibility for your own learning.</p>
+            </div>
         </div>
     </div>
 
-    <div class="guideline-row">
-        <span class="guideline-number">04</span>
-        <div class="guideline-icon"><i class="fa fa-graduation-cap"></i></div>
-        <div class="guideline-body">
-            <h3>Learning Focus</h3>
-            <p>Use AI as a learning aid, not a replacement for understanding. Ensure you comprehend the material AI helps you with.</p>
-        </div>
+    <!-- Footer note -->
+    <div class="guidelines-footer-note">
+        This guide was created as part of the Clarify project. The content is intended as general guidance and does not replace your university's official policies.
     </div>
-
-    <div class="guideline-row">
-        <span class="guideline-number">05</span>
-        <div class="guideline-icon"><i class="fa fa-clipboard"></i></div>
-        <div class="guideline-body">
-            <h3>Attribution</h3>
-            <p>Properly cite AI tools when required by your institution. Follow academic honesty policies and guidelines.</p>
-        </div>
-    </div>
-
-    <div class="guideline-row">
-        <span class="guideline-number">06</span>
-        <div class="guideline-icon"><i class="fa fa-lock"></i></div>
-        <div class="guideline-body">
-            <h3>Privacy</h3>
-            <p>Be mindful of data privacy. Don't share sensitive information with AI tools without understanding their data policies.</p>
-        </div>
-    </div>
-
 </section>
 
 <!-- Footer -->
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-brand">
-            <span class="logo">AIGuidebook</span>
+            <span class="logo">Clarify</span>
             <p>Helping students use AI responsibly.</p>
         </div>
         <div class="footer-links">
             <div class="footer-column">
                 <h4>Resources</h4>
-                <a href="#">Lorem ipsum</a>
-                <a href="#">Lorem ipsum</a>
-                <a href="#">Lorem ipsum</a>
+                <a href="guidelines.html">Guidelines</a>
+                <a href="risks.html">Risks</a>
+                <a href="integrity.html">Integrity</a>
             </div>
             <div class="footer-column">
-                <h4>About</h4>
-                <a href="#">Our Mission</a>
-                <a href="#">FAQ</a>
+                <h4>Tools</h4>
+                <a href="checklist.html">Checklist</a>
+                <a href="quiz.html">Quiz</a>
+                <a href="prompt.html">Prompt Helper</a>
             </div>
         </div>
     </div>

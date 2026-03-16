@@ -250,3 +250,24 @@ if (loginForm) {
         }
     });
 }
+// ===== TABS =====
+const tabButtons = document.querySelectorAll('.tab');
+const tabPanels = document.querySelectorAll('.tab-content');
+
+tabButtons.forEach(tab => {
+    tab.addEventListener('click', () => {
+        tabButtons.forEach(t => t.classList.remove('active'));
+        tabPanels.forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+    });
+});
+
+// ===== ACCORDION =====
+const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+accordionHeaders.forEach(header => {
+    header.addEventListener('click', () => {
+        header.parentElement.classList.toggle('open');
+    });
+});

@@ -467,47 +467,185 @@ a {
     .footer-links {
         gap: 40px;
     }
-/* Guidelines layout */
-        .guidelines-section {
-            max-width: 860px;
-            margin: 60px auto;
-            padding: 0 24px;
-        }
-        .guidelines-section .section-title {
-            margin-bottom: 48px;
-        }
-        .guideline-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 24px;
-            padding: 32px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-        .guideline-row:last-child {
-            border-bottom: none;
-        }
-        .guideline-number {
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            color: var(--accent, #a78bfa);
-            min-width: 28px;
-            padding-top: 4px;
-        }
-        .guideline-icon {
-            font-size: 1.4rem;
-            color: var(--accent, #a78bfa);
-            min-width: 32px;
-            padding-top: 2px;
-        }
-        .guideline-body h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        .guideline-body p {
-            font-size: 0.95rem;
-            line-height: 1.7;
-            opacity: 0.75;
-        }
+}
+/* ===== GUIDELINES PAGE ===== */
+.guidelines-section {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: calc(var(--nav-height) + 60px) 24px 120px;
+}
+
+.guidelines-subtitle {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    gap: 32px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+}
+
+.tab {
+    padding: 12px 0;
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    font-family: var(--font-main);
+    transition: color var(--transition-fast);
+}
+
+.tab:hover {
+    color: var(--text-primary);
+}
+
+.tab.active {
+    color: var(--text-primary);
+}
+
+.tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--text-primary);
+}
+
+/* Tab content */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Accordion */
+.accordion-item {
+    border-bottom: 1px solid var(--border);
+}
+
+.accordion-header {
+    width: 100%;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: var(--font-main);
+    cursor: pointer;
+    text-align: left;
+    transition: color var(--transition-fast);
+}
+
+.accordion-header:hover {
+    color: var(--text-secondary);
+}
+
+.accordion-icon {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    transition: transform 0.2s ease;
+}
+
+.accordion-item.open .accordion-icon {
+    transform: rotate(90deg);
+}
+
+.accordion-body {
+    display: none;
+    padding: 0 0 24px 0;
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+}
+
+.accordion-item.open .accordion-body {
+    display: block;
+}
+
+.accordion-body p {
+    margin-bottom: 16px;
+}
+
+.accordion-body p:last-child {
+    margin-bottom: 0;
+}
+
+.accordion-body ul {
+    margin: 16px 0;
+    padding-left: 20px;
+}
+
+.accordion-body li {
+    margin-bottom: 8px;
+    color: var(--text-muted);
+}
+
+.accordion-body strong {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.accordion-body code {
+    background: var(--bg-card);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.accordion-body a {
+    color: var(--text-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.accordion-body a:hover {
+    color: var(--text-muted);
+}
+
+/* Example blockquotes */
+.example {
+    border-left: 2px solid var(--border);
+    padding-left: 16px;
+    margin: 16px 0;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.example-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    font-style: normal;
+    margin-bottom: 4px;
+}
+
+.example.good {
+    border-left-color: #4ade80;
+}
+
+.example.bad {
+    border-left-color: #f87171;
+}
+
+/* Guidelines footer note */
+.guidelines-footer-note {
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    font-size: 0.8125rem;
+    color: var(--text-muted);
 }
