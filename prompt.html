@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Helper - Clarify</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Clarify</a>
+
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="guidelines.html" class="nav-link">Guidelines</a></li>
+                <li class="nav-item"><a href="checklist.html" class="nav-link">Checklist</a></li>
+                <li class="nav-item"><a href="quiz.html" class="nav-link">Quiz</a></li>
+                <li class="nav-item"><a href="prompt.html" class="nav-link active">Prompt-helper</a></li>
+                <li class="nav-highlight"></li>
+            </ul>
+
+            <a href="login.html" class="nav-cta">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- Prompt Helper Section -->
+    <section class="prompt-section">
+        <div class="prompt-glow"></div>
+        <div class="prompt-container">
+            
+            <div class="prompt-card">
+                <h1 class="prompt-title">Prompt Helper</h1>
+                <p class="prompt-subtitle">Write effective prompts for AI tools - Get instant feedback on your prompt quality</p>
+                
+                <form id="promptForm">
+                    <div class="form-group">
+                        <label for="promptInput" class="form-label">Your Prompt</label>
+                        <textarea 
+                            id="promptInput" 
+                            class="prompt-textarea" 
+                            placeholder="Example: Explain how photosynthesis works in plants, including the chemical reactions involved..."
+                            required
+                        ></textarea>
+                    </div>
+                    
+                    <button type="submit" class="analyze-btn">Analyze Prompt</button>
+                </form>
+
+                <div id="feedback" class="feedback-section">
+                    <div class="feedback-title">
+                        <span class="feedback-icon" id="feedbackIcon"></span>
+                        <span id="feedbackTitle"></span>
+                    </div>
+                    <p class="feedback-score" id="feedbackScore"></p>
+                    <div class="feedback-list" id="feedbackDetails"></div>
+                </div>
+
+                <div class="example-prompts">
+                    <h3>Example Prompts (Click to try)</h3>
+                    <div class="example-item" data-example="Explain photosynthesis in simple terms with examples">
+                        ✓ Good: "Explain photosynthesis in simple terms with examples"
+                    </div>
+                    <div class="example-item" data-example="Write my essay about climate change">
+                        ✗ Bad: "Write my essay about climate change"
+                    </div>
+                    <div class="example-item" data-example="Can you help me understand the difference between mitosis and meiosis? I'm confused about when each process occurs.">
+                        ✓ Good: "Can you help me understand the difference between mitosis and meiosis? I'm confused about when each process occurs."
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Prompt evaluation logic
+        const promptForm = document.getElementById('promptForm');
+        const promptInput = document.getElementById('promptInput');
+        const feedback = document.getElementById('feedback');
+        const feedbackIcon = document.getElementById('feedbackIcon');
+        const feedbackTitle = document.getElementById('feedbackTitle');
+        const feedbackScore = document.getElementById('feedbackScore');
+        const feedbackDetails = document.getElementById('feedbackDetails');
+
+        // Example prompts
+        document.querySelectorAll('.example-item').forEach(item => {
+            item.addEventListener('click', () => {
+                promptInput.value = item.dataset.example;
+                promptInput.focus();
+            });
+        });
+
+        promptForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            analyzePrompt(promptInput.value);
+        });
+
+        function analyzePrompt(prompt) {
+            const analysis = evaluatePrompt(prompt);
+            displayFeedback(analysis);
+        }
+
+        function evaluatePrompt(prompt) {
+            let score = 0;
+            const issues = [];
+            const strengths = [];
+            const suggestions = [];
+
+            const lowerPrompt = prompt.toLowerCase();
+
+            // Check for problematic phrases
+            const badPhrases = [
+                'write essay', 'write my', 'do my homework', 'solve this problem for me',
+                'give me the answer', 'complete assignment', 'write code for',
+                'write paper', 'do assignment'
+            ];
+            
+            const hasBadPhrase = badPhrases.some(phrase => lowerPrompt.includes(phrase));
+            
+            if (hasBadPhrase) {
+                issues.push('Asks AI to complete work instead of helping you learn');
+                issues.push('May violate academic integrity policies');
+                score -= 30;
+            } else {
+                strengths.push('Does not ask AI to do work for you');
+                score += 15;
+            }
+
+            // Check for learning-oriented phrases
+            const goodPhrases = [
+                'explain', 'help me understand', 'how does', 'can you clarify',
+                'what is the difference', 'give examples', 'break down',
+                'confused about', 'struggling with'
+            ];
+            
+            const hasGoodPhrase = goodPhrases.some(phrase => lowerPrompt.includes(phrase));
+            
+            if (hasGoodPhrase) {
+                strengths.push('Focuses on understanding and learning');
+                score += 20;
+            } else {
+                suggestions.push('Consider phrasing it as a question to foster learning');
+            }
+
+            // Check length
+            if (prompt.length < 20) {
+                issues.push('Prompt is too short - may not provide enough context');
+                score -= 10;
+            } else if (prompt.length > 50) {
+                strengths.push('Provides adequate context');
+                score += 10;
+            }
+
+            // Check for specificity
+            if (prompt.includes('?')) {
+                strengths.push('Asks a clear question');
+                score += 10;
+            }
+
+            // Check if it's asking for understanding vs answers
+            if (lowerPrompt.includes('answer') && !lowerPrompt.includes('understand')) {
+                issues.push('Focuses on getting answers rather than understanding');
+                score -= 10;
+            }
+
+            // Normalize score to 0-100
+            score = Math.max(0, Math.min(100, score + 50));
+
+            let category = 'moderate';
+            if (score >= 70) category = 'good';
+            if (score < 50) category = 'bad';
+
+            return {
+                score,
+                category,
+                issues,
+                strengths,
+                suggestions
+            };
+        }
+
+        function displayFeedback(analysis) {
+            feedback.style.display = 'block';
+            feedback.className = `feedback-section ${analysis.category}`;
+
+            // Set icon and title
+            if (analysis.category === 'good') {
+                feedbackIcon.textContent = '✓';
+                feedbackTitle.textContent = 'Great Prompt!';
+                feedbackScore.textContent = `Score: ${analysis.score}/100 - This is an effective learning-focused prompt.`;
+            } else if (analysis.category === 'bad') {
+                feedbackIcon.textContent = '✗';
+                feedbackTitle.textContent = 'Problematic Prompt';
+                feedbackScore.textContent = `Score: ${analysis.score}/100 - This prompt may violate academic integrity.`;
+            } else {
+                feedbackIcon.textContent = '!';
+                feedbackTitle.textContent = 'Could Be Improved';
+                feedbackScore.textContent = `Score: ${analysis.score}/100 - This prompt could be more effective.`;
+            }
+
+            // Build feedback details
+            let detailsHTML = '';
+
+            if (analysis.strengths.length > 0) {
+                detailsHTML += '<h4>✓ Strengths:</h4><ul>';
+                analysis.strengths.forEach(strength => {
+                    detailsHTML += `<li>${strength}</li>`;
+                });
+                detailsHTML += '</ul>';
+            }
+
+            if (analysis.issues.length > 0) {
+                detailsHTML += '<h4>✗ Issues:</h4><ul>';
+                analysis.issues.forEach(issue => {
+                    detailsHTML += `<li>${issue}</li>`;
+                });
+                detailsHTML += '</ul>';
+            }
+
+            if (analysis.suggestions.length > 0) {
+                detailsHTML += '<h4>💡 Suggestions:</h4><ul>';
+                analysis.suggestions.forEach(suggestion => {
+                    detailsHTML += `<li>${suggestion}</li>`;
+                });
+                detailsHTML += '</ul>';
+            }
+
+            feedbackDetails.innerHTML = detailsHTML;
+        }
+    </script>
+    <script src="JS/main.js"></script>
+</body>
+</html>
