@@ -1,137 +1,495 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checklist - AIGuidebook</title>
+    <title>Sjekkliste - AIGuidebook</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .hero {
-            min-height: 60vh;
-            padding: calc(var(--nav-height) + 40px) 24px 40px;
+        .checklist-section {
+            padding: calc(var(--nav-height) + 48px) 24px 80px;
         }
-        .hero-title {
-            font-size: clamp(2rem, 6vw, 3rem);
+
+        .checklist-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .checklist-header {
+            text-align: center;
+            max-width: 820px;
+            margin: 0 auto 40px;
+        }
+
+        .checklist-title {
+            font-size: clamp(2.2rem, 6vw, 3.5rem);
+            line-height: 1.1;
             margin-bottom: 16px;
         }
-        .hero-subtitle {
-            margin-bottom: 24px;
+
+        .checklist-subtitle {
+            color: var(--text-secondary, #b3b3b3);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .important-note {
+            max-width: 760px;
+            margin: 0 auto 32px;
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: rgba(124, 92, 255, 0.08);
+            border: 1px solid rgba(124, 92, 255, 0.18);
+            color: #e8e8ff;
+            line-height: 1.7;
+            font-size: 0.97rem;
+        }
+
+        .progress-wrapper {
+            max-width: 760px;
+            margin: 0 auto 40px;
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            color: var(--text-secondary, #b3b3b3);
+            font-size: 0.95rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #7c5cff, #52d6ff);
+            border-radius: 999px;
+            transition: width 0.3s ease;
+        }
+
+        .checklist-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .check-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            min-height: 290px;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .check-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .check-card.answered {
+            border-color: rgba(82, 214, 255, 0.35);
+            box-shadow: 0 0 0 1px rgba(82, 214, 255, 0.12), 0 10px 30px rgba(82, 214, 255, 0.06);
+        }
+
+        .check-card-top {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .check-icon {
+            font-size: 2rem;
+            line-height: 1;
+        }
+
+        .check-card h3 {
+            margin: 0;
+            font-size: 1.45rem;
+        }
+
+        .check-card p {
+            margin: 0;
+            color: var(--text-secondary, #b3b3b3);
+            line-height: 1.7;
+        }
+
+        .answer-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .answer-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            cursor: pointer;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .answer-option:hover {
+            border-color: rgba(124, 92, 255, 0.35);
+            background: rgba(124, 92, 255, 0.06);
+        }
+
+        .answer-option input[type="radio"] {
+            accent-color: #7c5cff;
+            cursor: pointer;
+        }
+
+        .checklist-actions {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .result-box {
+            width: 100%;
+            max-width: 760px;
+            display: none;
+            padding: 22px 24px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.04);
+        }
+
+        .result-box.show {
+            display: block;
+        }
+
+        .result-box.low {
+            border-color: rgba(80, 220, 160, 0.45);
+            background: rgba(80, 220, 160, 0.08);
+        }
+
+        .result-box.medium {
+            border-color: rgba(255, 190, 80, 0.45);
+            background: rgba(255, 190, 80, 0.08);
+        }
+
+        .result-box.high {
+            border-color: rgba(255, 95, 95, 0.45);
+            background: rgba(255, 95, 95, 0.08);
+        }
+
+        .result-box h3 {
+            margin: 0 0 10px;
+            font-size: 1.2rem;
+        }
+
+        .result-box p {
+            margin: 0;
+            line-height: 1.7;
+            color: #ededed;
+        }
+
+        @media (max-width: 900px) {
+            .checklist-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .progress-top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+
+            .check-card {
+                min-height: auto;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Navbar seksjon -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="index.html" class="logo">Clarify</a>
-            
+            <a href="index.html" class="logo">AIGuidebook</a>
+
             <ul class="nav-menu">
-                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="guidelines.html" class="nav-link">Guidelines</a></li>
-                <li class="nav-item"><a href="risks.html" class="nav-link">Risks</a></li>
-                <li class="nav-item"><a href="integrity.html" class="nav-link">Integrity</a></li>
-                <li class="nav-item"><a href="checklist.html" class="nav-link">Checklist</a></li>
-                <li class="nav-item"><a href="quiz.html" class="nav-link">Quiz</a></li>
-                <li class="nav-item"><a href="prompt.html" class="nav-link">Prompt-helper</a></li>
-                <!-- Slidende enhet -->
+                <li class="nav-item"><a href="index.html" class="nav-link">Hjem</a></li>
+                <li class="nav-item"><a href="guidelines.html" class="nav-link">Retningslinjer</a></li>
+                <li class="nav-item"><a href="risks.html" class="nav-link">Risikoer</a></li>
+                <li class="nav-item"><a href="integrity.html" class="nav-link">Integritet</a></li>
+                <li class="nav-item"><a href="checklist.html" class="nav-link active">Sjekkliste</a></li>
                 <li class="nav-highlight"></li>
             </ul>
-            
-            <a href="login.html" class="nav-cta">Get Started</a>
+
+            <a href="#resultat" class="nav-cta">Vurder risiko</a>
         </div>
     </nav>
 
-    <!-- Hero seksjon for Checklist -->
-    <section class="hero">
-        <div class="hero-glow"></div>
-        <div class="hero-content">
-            <h1 class="hero-title">AI Usage Checklist</h1>
-            <p class="hero-subtitle">A practical checklist to ensure responsible AI use in your academic work</p>
-            <div class="hero-buttons">
-                <a href="#content" class="btn btn-primary">View Checklist</a>
-                <a href="index.html" class="btn btn-secondary">Back to Home</a>
+    <section class="checklist-section">
+        <div class="checklist-container">
+            <div class="checklist-header">
+                <h1 class="checklist-title">Risikovurdering før innlevering</h1>
+                <p class="checklist-subtitle">
+                    Svar på spørsmålene under for å vurdere risikoen knyttet til bruk av KI i oppgaven din.
+                    Resultatet viser om innleveringen din ser ut til å ha lav, middels eller høy risiko.
+                </p>
+            </div>
+
+            <div class="important-note">
+                Velg det svaret som passer best. Kritiske spørsmål, som regler, faktasjekk, akademisk ærlighet
+                og personvern, teller mer enn de andre i den samlede vurderingen.
+            </div>
+
+            <div class="progress-wrapper">
+                <div class="progress-top">
+                    <span>Fremdrift</span>
+                    <span id="progress-text">0 av 8 spørsmål besvart</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+
+            <div class="checklist-grid">
+                <div class="check-card" data-question>
+                    <div class="check-card-top">
+                        <div class="check-icon">✅</div>
+                        <h3>Regler og retningslinjer</h3>
+                        <p>Har du sjekket om KI er tillatt i denne oppgaven, og fulgt reglene som gjelder?</p>
+                    </div>
+                    <div class="answer-group">
+                        <label class="answer-option"><input type="radio" name="q1" value="0" data-critical="true"> Ja</label>
+                        <label class="answer-option"><input type="radio" name="q1" value="1" data-critical="true"> Delvis / Usikker</label>
+                        <label class="answer-option"><input type="radio" name="q1" value="2" data-critical="true"> Nei</label>
+                    </div>
+                </div>
+
+                <div class="check-card" data-question>
+                    <div class="check-card-top">
+                        <div class="check-icon">📝</div>
+                        <h3>Dokumentasjon av KI-bruk</h3>
+                        <p>Har du oversikt over hvilke KI-verktøy du brukte, og hvordan du brukte dem?</p>
+                    </div>
+                    <div class="answer-group">
+                        <label class="answer-option"><input type="radio" name="q2" value="0"> Ja</label>
+                        <label class="answer-option"><input type="radio" name="q2" value="1"> Delvis / Usikker</label>
+                        <label class="answer-option"><input type="radio" name="q2" value="2"> Nei</label>
+                    </div>
+                </div>
+
+                <div class="check-card" data-question>
+                    <div class="check-card-top">
+                        <div class="check-icon">🔍</div>
+                        <h3>Faktasjekk</h3>
+                        <p>Har du kontrollert fakta, sitater og påstander fra KI med pålitelige kilder?</p>
+                    </div>
+                    <div class="answer-group">
+                        <label class="answer-option"><input type="radio" name="q3" value="0" data-critical="true"> Ja</label>
+                        <label class="answer-option"><input type="radio" name="q3" value="1" data-critical="true"> Delvis / Usikker</label>
+                        <label class="answer-option"><input type="radio" name="q3" value="2" data-critical="true"> Nei</label>
+                    </div>
+                </div>
+
+                <div class="check-card" data-question>
+                    <div class="check-card-top">
+                        <div class="check-icon">💭</div>
+                        <h3>Eget arbeid</h3>
+                        <p>Inneholder oppgaven dine egne tanker, vurderinger og refleksjoner?</p>
+                    </div>
+                    <div class="answer-group">
+                        <label class="answer-option"><input type="radio" name="q4" value="0" data-critical="true"> Ja</label>
+                        <label class="answer-option"><input type="radio" name="q4" value="1" data-critical="true"> Delvis / Usikker</label>
+                        <label class="answer-option"><input type="radio" name="q4" value="2" data-critical="true"> Nei</label>
+                    </div>
+                </div>
+
+                <div class="check-card" data-question>
+                    <div class="check-card-top">
+                        <div class="check-icon">📚</div>
+                        <h3>Henvisning til KI</h3>
+                        <p>Har du oppgitt KI-bruk dersom faglærer eller institusjonen krever det?</p>
+                    </div>
+                    <div class="answer-group">
+                        <label class="answer-option"><input type="radio" name="q5" value="0" data-critical="true"> Ja</label>
+                        <label class="answer-option"><input type="radio" name="q5" value="1" data-critical="true"> Delvis / Usikker</label>
+                        <label class="answer-option"><input type="radio" name="q5" value="2" data-critical="true"> Nei</label>
+                    </div>
+                </div>
+
+                <div class="check-card" data-question>
+                    <div class="check-card-top">
+                        <div class="check-icon">🎓</div>
+                        <h3>Læringsmål</h3>
+                        <p>Har KI støttet læringen din i stedet for å gjøre arbeidet for deg?</p>
+                    </div>
+                    <div class="answer-group">
+                        <label class="answer-option"><input type="radio" name="q6" value="0"> Ja</label>
+                        <label class="answer-option"><input type="radio" name="q6" value="1"> Delvis / Usikker</label>
+                        <label class="answer-option"><input type="radio" name="q6" value="2"> Nei</label>
+                    </div>
+                </div>
+
+                <div class="check-card" data-question>
+                    <div class="check-card-top">
+                        <div class="check-icon">⚖️</div>
+                        <h3>Akademisk ærlighet</h3>
+                        <p>Er du trygg på at innleveringen er ærlig og ikke gir feil inntrykk av hvem som gjorde arbeidet?</p>
+                    </div>
+                    <div class="answer-group">
+                        <label class="answer-option"><input type="radio" name="q7" value="0" data-critical="true"> Ja</label>
+                        <label class="answer-option"><input type="radio" name="q7" value="1" data-critical="true"> Delvis / Usikker</label>
+                        <label class="answer-option"><input type="radio" name="q7" value="2" data-critical="true"> Nei</label>
+                    </div>
+                </div>
+
+                <div class="check-card" data-question>
+                    <div class="check-card-top">
+                        <div class="check-icon">🔒</div>
+                        <h3>Personvern</h3>
+                        <p>Har du unngått å dele sensitive eller personlige opplysninger med KI-verktøy?</p>
+                    </div>
+                    <div class="answer-group">
+                        <label class="answer-option"><input type="radio" name="q8" value="0" data-critical="true"> Ja</label>
+                        <label class="answer-option"><input type="radio" name="q8" value="1" data-critical="true"> Delvis / Usikker</label>
+                        <label class="answer-option"><input type="radio" name="q8" value="2" data-critical="true"> Nei</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="checklist-actions" id="resultat">
+                <button class="btn btn-primary" id="check-result-btn">Beregn risiko</button>
+
+                <div class="result-box" id="result-box">
+                    <h3 id="result-title"></h3>
+                    <p id="result-message"></p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Checklist content seksjon -->
-    <section id="content" class="features">
-        <div class="features-container">
-            <h2 class="section-title">Pre-Submission Checklist</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">✅</div>
-                    <h3>Policy Review</h3>
-                    <p>Have you checked your institution's AI policy and followed all required guidelines for AI usage?</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📝</div>
-                    <h3>Documentation</h3>
-                    <p>Have you documented which AI tools you used, when you used them, and for what specific purposes?</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔍</div>
-                    <h3>Fact Verification</h3>
-                    <p>Have you verified all facts, citations, and claims generated by AI tools through reliable sources?</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">💭</div>
-                    <h3>Original Analysis</h3>
-                    <p>Does your work contain substantial original thinking and analysis beyond AI-generated content?</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📖</div>
-                    <h3>Citation & Attribution</h3>
-                    <p>Have you properly cited and attributed all AI tools used in accordance with academic standards?</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎓</div>
-                    <h3>Learning Objectives</h3>
-                    <p>Does your AI usage support rather than undermine the learning objectives of the assignment?</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚖️</div>
-                    <h3>Academic Honesty</h3>
-                    <p>Are you confident that your work maintains academic honesty and represents your understanding?</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔒</div>
-                    <h3>Privacy Protection</h3>
-                    <p>Have you avoided sharing sensitive or private information with AI tools?</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer del  -->
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-brand">
                 <span class="logo">AIGuidebook</span>
-                <p>Helping students use AI responsibly.</p>
+                <p>Hjelper studenter med ansvarlig bruk av KI.</p>
             </div>
+
             <div class="footer-links">
                 <div class="footer-column">
-                    <h4>Resources</h4>
-                    <a href="#">Lorem ipsum</a>
-                    <a href="#">Lorem ipsum</a>
-                    <a href="#">Lorem ipsum</a>
+                    <h4>Ressurser</h4>
+                    <a href="guidelines.html">Retningslinjer</a>
+                    <a href="risks.html">Risikoer</a>
+                    <a href="integrity.html">Integritet</a>
                 </div>
+
                 <div class="footer-column">
-                    <h4>About</h4>
-                    <a href="#">Our Mission</a>
-                    <a href="#">FAQ</a>
+                    <h4>Utforsk</h4>
+                    <a href="index.html">Hjem</a>
+                    <a href="checklist.html">Sjekkliste</a>
                 </div>
             </div>
         </div>
+
         <div class="footer-bottom">
-            <p>&copy; 2025 AIGuidebook. All rights reserved.</p>
+            <p>&copy; 2026 AIGuidebook. Alle rettigheter reservert.</p>
         </div>
     </footer>
 
-    <script src="JS/main.js"></script>
+    <script>
+        const allQuestions = document.querySelectorAll('[data-question]');
+        const allRadios = document.querySelectorAll('input[type="radio"]');
+        const progressText = document.getElementById('progress-text');
+        const progressFill = document.getElementById('progress-fill');
+        const resultBtn = document.getElementById('check-result-btn');
+        const resultBox = document.getElementById('result-box');
+        const resultTitle = document.getElementById('result-title');
+        const resultMessage = document.getElementById('result-message');
+
+        function updateProgress() {
+            let answered = 0;
+
+            allQuestions.forEach((question) => {
+                const checked = question.querySelector('input[type="radio"]:checked');
+                if (checked) {
+                    answered++;
+                    question.classList.add('answered');
+                } else {
+                    question.classList.remove('answered');
+                }
+            });
+
+            const total = allQuestions.length;
+            const percent = (answered / total) * 100;
+
+            progressText.textContent = `${answered} av ${total} spørsmål besvart`;
+            progressFill.style.width = `${percent}%`;
+        }
+
+        allRadios.forEach((radio) => {
+            radio.addEventListener('change', updateProgress);
+        });
+
+        resultBtn.addEventListener('click', () => {
+            let totalScore = 0;
+            let answered = 0;
+
+            allQuestions.forEach((question) => {
+                const checked = question.querySelector('input[type="radio"]:checked');
+                if (checked) {
+                    answered++;
+                    let value = Number(checked.value);
+
+                    if (checked.dataset.critical === 'true') {
+                        value = value * 2;
+                    }
+
+                    totalScore += value;
+                }
+            });
+
+            resultBox.classList.add('show');
+            resultBox.classList.remove('low', 'medium', 'high');
+
+            if (answered < allQuestions.length) {
+                resultBox.classList.add('medium');
+                resultTitle.textContent = 'Ufullstendig vurdering';
+                resultMessage.textContent = 'Du har ikke svart på alle spørsmålene ennå. Fullfør hele sjekklisten for å få en mer pålitelig vurdering av risiko.';
+                return;
+            }
+
+            if (totalScore <= 4) {
+                resultBox.classList.add('low');
+                resultTitle.textContent = 'Lav risiko';
+                resultMessage.textContent = 'Svarene dine tyder på at KI-bruken din ser ansvarlig og gjennomtenkt ut. Innleveringen virker å være i tråd med god akademisk praksis.';
+            } else if (totalScore <= 10) {
+                resultBox.classList.add('medium');
+                resultTitle.textContent = 'Middels risiko';
+                resultMessage.textContent = 'Det finnes noen forhold du bør gå gjennom før innlevering. Sjekk særlig dokumentasjon, faktasjekk og hvordan KI har påvirket arbeidet ditt.';
+            } else {
+                resultBox.classList.add('high');
+                resultTitle.textContent = 'Høy risiko';
+                resultMessage.textContent = 'Svarene dine tyder på at det er betydelig risiko knyttet til KI-bruken i oppgaven. Du bør gå nøye gjennom regler, personvern, kildebruk og akademisk integritet før du leverer.';
+            }
+        });
+
+        updateProgress();
+    </script>
+
+    <script src="js/main.js"></script>
 </body>
 </html>
