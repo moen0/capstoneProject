@@ -78,38 +78,8 @@ function updateNavbar() {
     }
 }
 
-// Skjul hero "Get Started" knapp på index siden når brukeren er logget inn
-function updateHeroButtons() {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    const heroButtons = document.querySelector('.hero-buttons');
-    
-    if (heroButtons && currentUser && currentUser.username) {
-        // Bruker er logget inn - skjul Get Started knappen
-        const getStartedBtn = heroButtons.querySelector('.btn-primary');
-        if (getStartedBtn && getStartedBtn.textContent.includes('Get Started')) {
-            getStartedBtn.style.display = 'none';
-        }
-    }
-}
-
-// Omdiriger logget inn bruker bort fra login/registration sidene
-function redirectIfLoggedIn() {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    const currentPath = window.location.pathname;
-    
-    if (currentUser && currentUser.username) {
-        if (currentPath.includes('login.html') || currentPath.includes('registration.html')) {
-            window.location.href = 'index.html';
-        }
-    }
-}
-
 // Kjør når siden lastes
-document.addEventListener('DOMContentLoaded', () => {
-    updateNavbar();
-    updateHeroButtons();
-    redirectIfLoggedIn();
-});
+document.addEventListener('DOMContentLoaded', updateNavbar);
 
 
 // ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
@@ -280,3 +250,24 @@ if (loginForm) {
         }
     });
 }
+// ===== TABS =====
+const tabButtons = document.querySelectorAll('.tab');
+const tabPanels = document.querySelectorAll('.tab-content');
+
+tabButtons.forEach(tab => {
+    tab.addEventListener('click', () => {
+        tabButtons.forEach(t => t.classList.remove('active'));
+        tabPanels.forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+    });
+});
+
+// ===== ACCORDION =====
+const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+accordionHeaders.forEach(header => {
+    header.addEventListener('click', () => {
+        header.parentElement.classList.toggle('open');
+    });
+});
