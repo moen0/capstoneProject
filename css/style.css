@@ -519,8 +519,8 @@ a {
     border-color: var(--text-muted);
 }
 
-/* ===== FEATURES SECTION ===== */
-/* ===== FEATURES SECTION ===== */
+
+
 .features {
     padding: 100px 24px;
     background: var(--bg-secondary);
@@ -923,7 +923,9 @@ a {
     }
 }
 
-/* ===== GUIDELINES PAGE ===== */
+
+
+/* ===== GUIDELINES + risks + integrity css ===== */
 .guidelines-section {
     max-width: 860px;
     margin: 0 auto;
@@ -974,7 +976,7 @@ a {
     background: var(--text-primary);
 }
 
-/* Tab content */
+/* Tab  */
 .tab-content {
     display: none;
 }
@@ -1070,7 +1072,7 @@ a {
     color: var(--text-muted);
 }
 
-/* Example blockquotes */
+
 .example {
     border-left: 2px solid var(--border);
     padding-left: 16px;
@@ -1096,13 +1098,24 @@ a {
     border-left-color: #f87171;
 }
 
-/* Guidelines footer note */
 .guidelines-footer-note {
     margin-top: 64px;
     padding-top: 32px;
     border-top: 1px solid var(--border);
     font-size: 0.8125rem;
     color: var(--text-muted);
+}
+
+/* Logo ting */
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 28px;
+    width: auto;
 }
 
 /* ===== PROMPT HELPER PAGE ===== */
