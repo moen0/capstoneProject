@@ -63,11 +63,12 @@ if (mobileMenuToggle && mobileMenu) {
 function updateNavbar() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const navCta = document.querySelector('.nav-cta');
+    const mobileMenu = document.querySelector('.mobile-menu');
     
     if (!navCta) return;
     
     if (currentUser && currentUser.username) {
-        // Bruker er logget inn - vis dropdown med brukernavn
+        // Bruker er logget inn - vis dropdown med brukernavn på desktop
         const dropdown = document.createElement('div');
         dropdown.className = 'user-dropdown';
         dropdown.innerHTML = `
@@ -81,6 +82,32 @@ function updateNavbar() {
         
         // Erstatt "Get Started" med dropdown
         navCta.parentNode.replaceChild(dropdown, navCta);
+        
+        // Oppdater mobile menu - legg til brukernavn og logout INNE i dropdown
+        if (mobileMenu) {
+            const mobileCtaLink = mobileMenu.querySelector('.mobile-menu-cta');
+            if (mobileCtaLink) {
+                // Fjern "Get Started" link
+                mobileCtaLink.remove();
+                
+                // Legg til brukernavn og logout INNE i mobile dropdown
+                const userInfo = document.createElement('div');
+                userInfo.className = 'mobile-user-info';
+                userInfo.innerHTML = `
+                    <div class="mobile-username">${currentUser.username}</div>
+                    <a href="#" class="mobile-menu-link mobile-logout">Log out</a>
+                `;
+                mobileMenu.appendChild(userInfo);
+                
+                // Håndter mobile logout
+                const mobileLogout = userInfo.querySelector('.mobile-logout');
+                mobileLogout.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('currentUser');
+                    window.location.reload();
+                });
+            }
+        }
         
         // Håndter dropdown-klikk
         const userButton = document.getElementById('userButton');
@@ -193,19 +220,19 @@ if (registrationForm) {
         
         // Valider at passordene matcher
         if (password !== confirmPassword) {
-            alert('Passordene matcher ikke!');
+            alert('✗ Passwords do not match!');
             return;
         }
         
         // Valider passordlengde
         if (password.length < 6) {
-            alert('Passordet må være minst 6 tegn');
+            alert('✗ Password must be at least 6 characters');
             return;
         }
         
         // Valider brukernavn
         if (username.length < 3) {
-            alert('Brukernavnet må være minst 3 tegn');
+            alert('✗ Username must be at least 3 characters');
             return;
         }
         
@@ -228,12 +255,12 @@ if (registrationForm) {
                 throw new Error(data.error || 'Registrering feilet');
             }
             
-            alert('Registrering vellykket!');
+            alert('✓ Registration successful! Please log in with your new account.');
             window.location.href = 'login.html';
             
         } catch (error) {
             console.error('Registreringsfeil:', error);
-            alert(error.message || 'Noe gikk galt under registrering');
+            alert('✗ Registration failed: ' + (error.message || 'Something went wrong. Please try again.'));
         }
     });
 }
@@ -271,12 +298,14 @@ if (loginForm) {
             // Lagre brukerinfo i localStorage
             localStorage.setItem('currentUser', JSON.stringify(data.user));
             
-            alert('Innlogging vellykket!');
+            // Vis suksessmelding
+            alert('✓ Login successful! Welcome back, ' + data.user.username + '!');
             window.location.href = 'index.html';
             
         } catch (error) {
             console.error('Innloggingsfeil:', error);
-            alert(error.message || 'Noe gikk galt under innlogging');
+            // Vis feilmelding
+            alert('✗ Login failed: ' + (error.message || 'Something went wrong. Please try again.'));
         }
     });
 }
