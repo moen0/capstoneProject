@@ -174,8 +174,14 @@ function evaluatePrompt(prompt) {
     }
 
     // ===== SJEKK FOKUS PÅ FORSTÅELSE VS SVAR =====
-    // Fokus på "answer" uten "understand" kan være problematisk
-    if (lowerPrompt.includes('answer') && !lowerPrompt.includes('understand')) {
+    // Fokus på svar-relaterte ord uten forståelses-ord kan være problematisk
+    const answerFocusWords = ['answer', 'solution', 'result', 'give me the', 'tell me the', 'what is the'];
+    const understandingWords = ['understand', 'learn', 'explain', 'why', 'how does', 'clarify'];
+    
+    const hasAnswerFocus = answerFocusWords.some(word => lowerPrompt.includes(word));
+    const hasUnderstandingFocus = understandingWords.some(word => lowerPrompt.includes(word));
+    
+    if (hasAnswerFocus && !hasUnderstandingFocus) {
         issues.push('Focuses on getting answers rather than understanding');
         score -= 10;
     }
