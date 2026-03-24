@@ -13,20 +13,50 @@ function updateHighlight(item) {
 }
 
 // Add event listeners to nav items
-navItems.forEach(item => {
-    item.addEventListener('mouseenter', () => {
-        updateHighlight(item);
+if (navMenu && navItems.length > 0 && navHighlight) {
+    navItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            updateHighlight(item);
+        });
     });
-});
 
-// Reset highlight when leaving nav menu
-navMenu.addEventListener('mouseleave', () => {
-    navHighlight.style.opacity = '0';
-});
+    // Reset highlight when leaving nav menu
+    navMenu.addEventListener('mouseleave', () => {
+        navHighlight.style.opacity = '0';
+    });
 
-navMenu.addEventListener('mouseenter', () => {
-    navHighlight.style.opacity = '1';
-});
+    navMenu.addEventListener('mouseenter', () => {
+        navHighlight.style.opacity = '1';
+    });
+}
+
+// ===== MOBILE MENU TOGGLE =====
+const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+const mobileMenu = document.querySelector('.mobile-menu');
+
+if (mobileMenuToggle && mobileMenu) {
+    mobileMenuToggle.addEventListener('click', () => {
+        mobileMenuToggle.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+    });
+
+    // Close menu when clicking on a link
+    const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
+    mobileMenuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenuToggle.classList.remove('active');
+            mobileMenu.classList.remove('active');
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!mobileMenuToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
+            mobileMenuToggle.classList.remove('active');
+            mobileMenu.classList.remove('active');
+        }
+    });
+}
 
 
 // ===== USER AUTHENTICATION & NAVBAR UPDATE =====
