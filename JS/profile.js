@@ -194,7 +194,7 @@ function loadSavedPrompts() {
     if (savedPrompts.length === 0) {
         savedPromptsList.innerHTML = `
             <div class="empty-state">
-                <div class="empty-state-icon">📝</div>
+                <div class="empty-state-icon"><i class="fa fa-file-text-o"></i></div>
                 <p>No saved prompts yet.</p>
                 <p>Use the <a href="prompt.html">Prompt Helper</a> to analyze and save your best prompts!</p>
             </div>
