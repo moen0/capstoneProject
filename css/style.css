@@ -263,6 +263,7 @@ a {
 .user-dropdown {
     position: relative;
     display: inline-block;
+    justify-self: end;
 }
 
 .user-button {
