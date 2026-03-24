@@ -13,42 +13,15 @@ npm install
 
 ### Steg 3: Sett opp Supabase
 1. Gå til [supabase.com](https://app.supabase.com/) og lag et prosjekt
-2. Gå til SQL Editor og kjør dette scriptet:
+2. Gå til SQL Editor og kjør hele scriptet fra `docs/database-setup.sql`
 
-```sql
--- Slett gammel users-tabell hvis den finnes
-DROP TABLE IF EXISTS users;
+Dette vil opprette følgende tabeller:
+- **users** - Brukerkontoer med autentisering
+- **saved_prompts** - Lagrede prompts fra Prompt Helper
+- **user_stats** - Brukerstatistikk for badge-systemet
+- **user_badges** - Opplåste badges per bruker
 
--- Opprett ny users-tabell med username
-CREATE TABLE users (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  username TEXT UNIQUE NOT NULL,
-  password TEXT NOT NULL,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
--- Legg til index for raskere søk
-CREATE INDEX idx_users_username ON users(username);
-
--- Aktiver Row Level Security (RLS)
-ALTER TABLE users ENABLE ROW LEVEL SECURITY;
-
--- Policy: Alle kan lese brukere
-CREATE POLICY "Allow public read access" ON users
-  FOR SELECT
-  USING (true);
-
--- Policy: Alle kan registrere nye brukere
-CREATE POLICY "Allow public insert" ON users
-  FOR INSERT
-  WITH CHECK (true);
-
--- Policy: Brukere kan oppdatere egne data
-CREATE POLICY "Users can update own data" ON users
-  FOR UPDATE
-  USING (true)
-  WITH CHECK (true);
-```
+💡 **Tips:** Du kan kopiere hele innholdet fra `docs/database-setup.sql` og lime det inn i Supabase SQL Editor.
 
 ### Steg 4: Konfigurer environment variables
 1. Kopier `docs/.env.example` til `.env` (i root):

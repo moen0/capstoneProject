@@ -24,13 +24,18 @@ app.use(express.static(path.join(__dirname, '..')));
 // Import API routes from parent directory
 import registerHandler from '../api/register.js';
 import loginHandler from '../api/login.js';
+import savePromptHandler from '../api/save-prompt.js';
+import getPromptsHandler from '../api/get-prompts.js';
+import deletePromptHandler from '../api/delete-prompt.js';
+import updateStatsHandler from '../api/update-stats.js';
+import getProfileHandler from '../api/get-profile.js';
 
-// API Routes
-app.post('/api/register', async (req, res) => {
-  // Create a mock Request/Response that matches Vercel's format
+// Helper function to create mock Vercel-style request/response
+function createMockHandlers(req, res) {
   const mockReq = {
-    method: 'POST',
-    body: req.body
+    method: req.method,
+    body: req.body,
+    query: req.query
   };
   
   const mockRes = {
@@ -43,26 +48,43 @@ app.post('/api/register', async (req, res) => {
     end: () => res.end()
   };
   
+  return { mockReq, mockRes };
+}
+
+// API Routes
+app.post('/api/register', async (req, res) => {
+  const { mockReq, mockRes } = createMockHandlers(req, res);
   await registerHandler(mockReq, mockRes);
 });
 
 app.post('/api/login', async (req, res) => {
-  const mockReq = {
-    method: 'POST',
-    body: req.body
-  };
-  
-  const mockRes = {
-    status: (code) => {
-      res.status(code);
-      return mockRes;
-    },
-    json: (data) => res.json(data),
-    setHeader: (key, value) => res.setHeader(key, value),
-    end: () => res.end()
-  };
-  
+  const { mockReq, mockRes } = createMockHandlers(req, res);
   await loginHandler(mockReq, mockRes);
+});
+
+app.post('/api/save-prompt', async (req, res) => {
+  const { mockReq, mockRes } = createMockHandlers(req, res);
+  await savePromptHandler(mockReq, mockRes);
+});
+
+app.get('/api/get-prompts', async (req, res) => {
+  const { mockReq, mockRes } = createMockHandlers(req, res);
+  await getPromptsHandler(mockReq, mockRes);
+});
+
+app.delete('/api/delete-prompt', async (req, res) => {
+  const { mockReq, mockRes } = createMockHandlers(req, res);
+  await deletePromptHandler(mockReq, mockRes);
+});
+
+app.post('/api/update-stats', async (req, res) => {
+  const { mockReq, mockRes } = createMockHandlers(req, res);
+  await updateStatsHandler(mockReq, mockRes);
+});
+
+app.get('/api/get-profile', async (req, res) => {
+  const { mockReq, mockRes } = createMockHandlers(req, res);
+  await getProfileHandler(mockReq, mockRes);
 });
 
 // Start server

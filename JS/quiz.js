@@ -282,6 +282,9 @@ function submitQuiz() {
     // Beregn prosentvis poengsum
     const percentage = (score / quizQuestions.length) * 100;
     
+    // ===== OPPDATER ACHIEVEMENTS/STATISTICS =====
+    updateQuizStats(percentage);
+    
     // Skjul quiz-innholdet og vis resultatene
     document.getElementById('quizContent').style.display = 'none';
     const resultDiv = document.getElementById('quizResult');
@@ -306,9 +309,52 @@ function submitQuiz() {
             <div class="quiz-buttons" style="margin-top: 32px;">
                 <button class="btn btn-primary" onclick="resetQuiz()">Retake Quiz</button>
                 <a href="guidelines.html" class="btn btn-secondary">Review Guidelines</a>
+                <a href="profile.html" class="btn btn-secondary">View Profile</a>
             </div>
         </div>
     `;
+}
+
+// ===== OPPDATER QUIZ STATISTIKK FOR BADGES =====
+async function updateQuizStats(percentage) {
+    const user = window.AuthHelper?.getCurrentUser();
+    
+    if (!user) {
+        // Fallback til localStorage hvis ikke innlogget
+        const stats = JSON.parse(localStorage.getItem('userStats') || '{}');
+        stats.quizzesCompleted = (stats.quizzesCompleted || 0) + 1;
+        if (percentage === 100) {
+            stats.perfectQuizzes = (stats.perfectQuizzes || 0) + 1;
+        }
+        localStorage.setItem('userStats', JSON.stringify(stats));
+        return;
+    }
+    
+    try {
+        // Oppdater antall fullførte quizzer
+        await window.AuthHelper.apiCall('/update-stats', {
+            method: 'POST',
+            body: JSON.stringify({
+                userId: user.id,
+                statType: 'quizzes_completed',
+                increment: 1
+            })
+        });
+        
+        // Hvis perfekt score, oppdater også det
+        if (percentage === 100) {
+            await window.AuthHelper.apiCall('/update-stats', {
+                method: 'POST',
+                body: JSON.stringify({
+                    userId: user.id,
+                    statType: 'perfect_quizzes',
+                    increment: 1
+                })
+            });
+        }
+    } catch (error) {
+        console.error('Error updating quiz stats:', error);
+    }
 }
 
 // ===== TILBAKESTILL QUIZ =====
