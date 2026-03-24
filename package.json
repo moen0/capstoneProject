@@ -1,0 +1,26 @@
+{
+  "name": "capstone-aiguidebook",
+  "version": "1.0.0",
+  "description": "AI Guidebook - Registration and Login System",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node src/server.js",
+    "start": "node src/server.js",
+    "build": "vercel build",
+    "deploy": "vercel --prod"
+  },
+  "keywords": ["ai", "guidebook", "supabase", "vercel"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "vercel": "^33.0.0"
+  }
+}
