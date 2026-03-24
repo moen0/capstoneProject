@@ -61,81 +61,99 @@ if (mobileMenuToggle && mobileMenu) {
 
 // ===== USER AUTHENTICATION & NAVBAR UPDATE =====
 function updateNavbar() {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    const navCta = document.querySelector('.nav-cta');
-    const mobileMenu = document.querySelector('.mobile-menu');
-    
-    if (!navCta) return;
-    
-    if (currentUser && currentUser.username) {
-        // Bruker er logget inn - vis dropdown med brukernavn på desktop
-        const dropdown = document.createElement('div');
-        dropdown.className = 'user-dropdown';
-        dropdown.innerHTML = `
-            <button class="user-button" id="userButton">
-                ${currentUser.username}
-            </button>
-            <div class="dropdown-content" id="dropdownMenu">
-                <a class="dropdown-item" id="logoutBtn">Log out</a>
-            </div>
-        `;
-        
-        // Erstatt "Get Started" med dropdown
-        navCta.parentNode.replaceChild(dropdown, navCta);
-        
-        // Oppdater mobile menu - legg til brukernavn og logout INNE i dropdown
-        if (mobileMenu) {
-            const mobileCtaLink = mobileMenu.querySelector('.mobile-menu-cta');
-            if (mobileCtaLink) {
-                // Fjern "Get Started" link
-                mobileCtaLink.remove();
-                
-                // Legg til brukernavn og logout INNE i mobile dropdown
-                const userInfo = document.createElement('div');
-                userInfo.className = 'mobile-user-info';
-                userInfo.innerHTML = `
-                    <div class="mobile-username">${currentUser.username}</div>
-                    <a href="#" class="mobile-menu-link mobile-logout">Log out</a>
-                `;
-                mobileMenu.appendChild(userInfo);
-                
-                // Håndter mobile logout
-                const mobileLogout = userInfo.querySelector('.mobile-logout');
-                mobileLogout.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    localStorage.removeItem('currentUser');
-                    window.location.reload();
-                });
+    // Get user from sessionStorage (via AuthHelper if available, otherwise directly)
+    let currentUser = null;
+    if (window.AuthHelper) {
+        currentUser = window.AuthHelper.getCurrentUser();
+    } else {
+        // Fallback: read from sessionStorage directly
+        const userStr = sessionStorage.getItem('currentUser');
+        if (userStr) {
+            try {
+                currentUser = JSON.parse(userStr);
+            } catch (e) {
+                console.error('Failed to parse user data:', e);
             }
         }
+    }
+    
+    // Get navbar elements
+    const navGetStarted = document.getElementById('navGetStarted');
+    const userDropdown = document.getElementById('userDropdown');
+    const userAvatar = document.getElementById('userAvatar');
+    const userName = document.getElementById('userName');
+    const userButton = document.getElementById('userButton');
+    const logoutBtn = document.getElementById('logoutBtn');
+    
+    // Get mobile menu elements
+    const mobileGetStarted = document.getElementById('mobileGetStarted');
+    const mobileUserInfo = document.getElementById('mobileUserInfo');
+    const mobileLogoutBtn = document.getElementById('mobileLogoutBtn');
+    
+    if (currentUser && currentUser.username) {
+        // User is logged in - show dropdown, hide "Get Started"
+        if (navGetStarted) navGetStarted.classList.add('hidden');
+        if (userDropdown) userDropdown.classList.remove('hidden');
         
-        // Håndter dropdown-klikk
-        const userButton = document.getElementById('userButton');
-        const dropdownMenu = document.getElementById('dropdownMenu');
-        const logoutBtn = document.getElementById('logoutBtn');
+        // Set username and avatar initial
+        if (userName) userName.textContent = currentUser.username;
+        if (userAvatar) userAvatar.textContent = currentUser.username.charAt(0).toUpperCase();
         
-        userButton.addEventListener('click', (e) => {
-            e.stopPropagation();
-            dropdownMenu.classList.toggle('show');
+        // Handle dropdown toggle
+        if (userButton) {
+            userButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                userDropdown.classList.toggle('open');
+            });
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (userDropdown && !userDropdown.contains(e.target)) {
+                userDropdown.classList.remove('open');
+            }
         });
         
-        // Lukk dropdown når man klikker utenfor
-        document.addEventListener('click', () => {
-            dropdownMenu.classList.remove('show');
-        });
+        // Handle logout
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (window.AuthHelper) {
+                    window.AuthHelper.logoutUser();
+                } else {
+                    // Fallback if AuthHelper not available
+                    sessionStorage.removeItem('currentUser');
+                    window.location.href = 'index.html';
+                }
+            });
+        }
         
-        // Håndter logout
-        logoutBtn.addEventListener('click', () => {
-            localStorage.removeItem('currentUser');
-            window.location.reload();
-        });
+        // Mobile menu
+        if (mobileGetStarted) mobileGetStarted.style.display = 'none';
+        if (mobileUserInfo) mobileUserInfo.style.display = 'block';
+        
+        // Handle mobile logout
+        if (mobileLogoutBtn) {
+            mobileLogoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (window.AuthHelper) {
+                    window.AuthHelper.logoutUser();
+                } else {
+                    sessionStorage.removeItem('currentUser');
+                    window.location.href = 'index.html';
+                }
+            });
+        }
     } else {
-        // Bruker er ikke logget inn - vis "Get Started" som lenke til login
-        navCta.href = 'login.html';
+        // User is not logged in - show "Get Started", hide dropdown
+        if (navGetStarted) navGetStarted.classList.remove('hidden');
+        if (userDropdown) userDropdown.classList.add('hidden');
+        if (mobileGetStarted) mobileGetStarted.style.display = 'block';
+        if (mobileUserInfo) mobileUserInfo.style.display = 'none';
     }
 }
 
-// Kjør når siden lastes
+// Run when page loads
 document.addEventListener('DOMContentLoaded', updateNavbar);
 
 
@@ -295,8 +313,12 @@ if (loginForm) {
                 throw new Error(data.error || 'Innlogging feilet');
             }
             
-            // Lagre brukerinfo i localStorage
-            localStorage.setItem('currentUser', JSON.stringify(data.user));
+            // Lagre brukerinfo i sessionStorage (bruk AuthHelper hvis tilgjengelig)
+            if (window.AuthHelper) {
+                window.AuthHelper.setCurrentUser(data.user);
+            } else {
+                sessionStorage.setItem('currentUser', JSON.stringify(data.user));
+            }
             
             // Vis suksessmelding
             alert('✓ Login successful! Welcome back, ' + data.user.username + '!');

@@ -31,7 +31,25 @@
                 <span class="hamburger-line"></span>
             </button>
 
-            <a href="login.html" class="nav-cta">Get Started</a>
+            <a href="login.html" class="nav-cta" id="navGetStarted">Get Started</a>
+            
+            <div class="user-dropdown hidden" id="userDropdown">
+                <button class="user-button" id="userButton">
+                    <span class="user-avatar" id="userAvatar">U</span>
+                    <span id="userName">User</span>
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="profile.html" class="dropdown-item">
+                        <span class="dropdown-icon">👤</span>
+                        Profile
+                    </a>
+                    <a href="#" class="dropdown-item logout" id="logoutBtn">
+                        <span class="dropdown-icon">🚪</span>
+                        Logout
+                    </a>
+                </div>
+            </div>
         </div>
         
         <!-- Mobile menu dropdown -->
@@ -41,7 +59,11 @@
             <a href="checklist.html" class="mobile-menu-link">Checklist</a>
             <a href="quiz.html" class="mobile-menu-link">Quiz</a>
             <a href="prompt.html" class="mobile-menu-link">Prompt-helper</a>
-            <a href="login.html" class="mobile-menu-link mobile-menu-cta">Get Started</a>
+            <div class="mobile-user-info" id="mobileUserInfo" style="display: none;">
+                <a href="profile.html" class="mobile-menu-link">👤 Profile</a>
+                <a href="#" class="mobile-menu-link logout" id="mobileLogoutBtn">🚪 Logout</a>
+            </div>
+            <a href="login.html" class="mobile-menu-link mobile-menu-cta" id="mobileGetStarted">Get Started</a>
         </div>
     </nav>
 
@@ -122,6 +144,7 @@
         </div>
     </footer>
 
+    <script src="JS/auth-helper.js"></script>
     <script src="JS/main.js"></script>
 </body>
 </html>

@@ -11,6 +11,77 @@ const feedbackTitle = document.getElementById('feedbackTitle');
 const feedbackScore = document.getElementById('feedbackScore');
 const feedbackDetails = document.getElementById('feedbackDetails');
 
+// ===== LAGRINGSFUNKSJON FOR PROMPTS =====
+let currentAnalysis = null; // Holder gjeldende analyse for lagring
+
+// Funksjon for å lagre prompt til database
+async function savePrompt(prompt, analysis) {
+    const user = window.AuthHelper?.getCurrentUser();
+    
+    if (!user) {
+        alert('Du må være innlogget for å lagre prompts');
+        window.location.href = 'login.html';
+        return;
+    }
+    
+    if (!user.id) {
+        alert('Brukerdata mangler. Vennligst logg inn på nytt.');
+        console.error('User object:', user);
+        return;
+    }
+    
+    try {
+        console.log('Saving prompt:', { userId: user.id, promptText: prompt, score: analysis.score, category: analysis.category });
+        
+        const response = await window.AuthHelper.apiCall('/save-prompt', {
+            method: 'POST',
+            body: JSON.stringify({
+                userId: user.id,
+                promptText: prompt,
+                score: analysis.score,
+                category: analysis.category
+            })
+        });
+        
+        console.log('Save response:', response);
+        
+        if (response.success) {
+            alert('✓ Prompt saved to your profile!');
+        } else {
+            alert('Kunne ikke lagre prompt: ' + (response.error || 'Ukjent feil'));
+        }
+    } catch (error) {
+        console.error('Error saving prompt:', error);
+        alert('Kunne ikke lagre prompt: ' + error.message);
+    }
+}
+
+// Funksjon for å oppdatere brukerstatistikk (for badges)
+async function updateUsageStats() {
+    const user = window.AuthHelper?.getCurrentUser();
+    
+    if (!user) {
+        // Hvis ikke innlogget, bruk localStorage som fallback
+        const stats = JSON.parse(localStorage.getItem('userStats') || '{}');
+        stats.promptHelperUses = (stats.promptHelperUses || 0) + 1;
+        localStorage.setItem('userStats', JSON.stringify(stats));
+        return;
+    }
+    
+    try {
+        await window.AuthHelper.apiCall('/update-stats', {
+            method: 'POST',
+            body: JSON.stringify({
+                userId: user.id,
+                statType: 'prompt_helper_uses',
+                increment: 1
+            })
+        });
+    } catch (error) {
+        console.error('Error updating stats:', error);
+    }
+}
+
 // ===== EKSEMPEL-PROMPTS FUNKSJONALITET =====
 // Gjør det mulig å klikke på eksempel-prompts for å fylle inn tekstfeltet
 document.querySelectorAll('.example-item').forEach(item => {
@@ -31,7 +102,9 @@ promptForm.addEventListener('submit', (e) => {
 // Tar inn et prompt og starter evalueringsprosessen
 function analyzePrompt(prompt) {
     const analysis = evaluatePrompt(prompt);
+    currentAnalysis = { prompt, analysis }; // Lagrer for senere bruk
     displayFeedback(analysis);
+    updateUsageStats(); // Oppdater statistikk hver gang analysen kjøres
 }
 
 // ===== PROMPT EVALUERING =====
@@ -362,4 +435,36 @@ function displayFeedback(analysis) {
     }
 
     feedbackDetails.innerHTML = detailsHTML;
+    
+    // ===== LEGG TIL LAGRE-KNAPP FOR GODE PROMPTS =====
+    // Kun vis lagre-knapp hvis promptet er bra nok (score >= 50)
+    const existingSaveBtn = feedback.querySelector('.save-prompt-btn');
+    if (existingSaveBtn) {
+        existingSaveBtn.remove();
+    }
+    
+    if (analysis.score >= 50) {
+        const saveBtn = document.createElement('button');
+        saveBtn.className = 'save-prompt-btn';
+        saveBtn.innerHTML = '💾 Save Prompt to Profile';
+        saveBtn.onclick = async (e) => {
+            e.preventDefault();
+            if (currentAnalysis) {
+                saveBtn.disabled = true;
+                saveBtn.innerHTML = '⏳ Saving...';
+                try {
+                    await savePrompt(currentAnalysis.prompt, currentAnalysis.analysis);
+                    saveBtn.innerHTML = '✓ Saved!';
+                    setTimeout(() => {
+                        saveBtn.innerHTML = '💾 Save Prompt to Profile';
+                        saveBtn.disabled = false;
+                    }, 2000);
+                } catch (error) {
+                    saveBtn.innerHTML = '✗ Failed - Try Again';
+                    saveBtn.disabled = false;
+                }
+            }
+        };
+        feedback.appendChild(saveBtn);
+    }
 }
