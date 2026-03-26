@@ -7,8 +7,7 @@
   "scripts": {
     "dev": "node src/server.js",
     "start": "node src/server.js",
-    "build": "vercel build",
-    "deploy": "vercel --prod"
+    "build": "echo 'no build step'"
   },
   "keywords": ["ai", "guidebook", "supabase", "vercel"],
   "author": "",
