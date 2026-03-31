@@ -998,7 +998,7 @@ a {
     align-items: center;
     background: none;
     border: none;
-    color: var(--text-primary);
+    color: var(--text-secondary);
     font-size: 1rem;
     font-family: var(--font-main);
     cursor: pointer;
@@ -1007,7 +1007,8 @@ a {
 }
 
 .accordion-header:hover {
-    color: var(--text-secondary);
+    color: var(--text-primary);
+
 }
 
 .accordion-icon {
@@ -1024,7 +1025,7 @@ a {
     display: none;
     padding: 0 0 24px 0;
     color: var(--text-secondary);
-    font-size: 0.9375rem;
+    font-size: 1.1rem;
 }
 
 .accordion-item.open .accordion-body {
@@ -1033,20 +1034,25 @@ a {
 
 .accordion-body p {
     margin-bottom: 16px;
+    color: #e8e8ff;
 }
 
 .accordion-body p:last-child {
     margin-bottom: 0;
+    color: #e8e8ff;
 }
 
 .accordion-body ul {
     margin: 16px 0;
     padding-left: 20px;
+    color: #e8e8ff;
 }
 
 .accordion-body li {
     margin-bottom: 8px;
     color: var(--text-muted);
+    color: #e8e8ff;
+
 }
 
 .accordion-body strong {
