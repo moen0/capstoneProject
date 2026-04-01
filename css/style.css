@@ -213,7 +213,7 @@ a {
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 100%);
+    background: linear-gradient(135deg, var(--accent) 0%, #38bdf8 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -436,11 +436,11 @@ a {
 
 .hero-glow {
     position: absolute;
-    top: 20%;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    width: 800px;
-    height: 600px;
+    transform: translate(-50%, -50%);
+    width: 1000px;
+    height: 900px;
     background: radial-gradient(ellipse, var(--accent-glow-strong) 0%, transparent 70%);
     pointer-events: none;
     filter: blur(80px);
@@ -1121,26 +1121,30 @@ a {
 /* ===== PROMPT HELPER PAGE ===== */
 .prompt-section {
     min-height: 100vh;
-    padding: calc(var(--nav-height) + 60px) 24px 60px;
+    padding: calc(var(--nav-height) + 40px) 24px 40px;
     position: relative;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .prompt-glow {
     position: absolute;
-    top: 10%;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(139, 92, 246, 0.25) 0%, transparent 70%);
-    filter: blur(60px);
+    transform: translate(-50%, -50%);
+    width: 1000px;
+    height: 900px;
+    background: radial-gradient(ellipse, var(--accent-glow-strong) 0%, transparent 70%);
+    filter: blur(80px);
     pointer-events: none;
     z-index: 0;
 }
 
 .prompt-container {
     max-width: 900px;
+    width: 100%;
     margin: 0 auto;
     position: relative;
     z-index: 1;
@@ -1197,7 +1201,7 @@ a {
 .prompt-textarea:focus {
     outline: none;
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
 }
 
 .prompt-textarea::placeholder {
@@ -1211,7 +1215,7 @@ a {
     font-weight: 500;
     font-family: var(--font-main);
     color: var(--bg-primary);
-    background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+    background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
     border: none;
     border-radius: 12px;
     cursor: pointer;
@@ -1220,7 +1224,7 @@ a {
 
 .analyze-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+    box-shadow: 0 8px 24px rgba(56, 189, 248, 0.4);
 }
 
 .analyze-btn:disabled {
@@ -1362,12 +1366,14 @@ a {
 /* ===== LOGIN PAGE ===== */
 /* Overrides for hero section on login page */
 body:has(.login-form) .hero {
-    align-items: flex-start;
-    padding-top: calc(var(--nav-height) + 120px);
+    align-items: center;
+    padding-top: calc(var(--nav-height) + 40px);
 }
 
 body:has(.login-form) .hero-glow {
-    top: 2%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .login-form {
@@ -1377,7 +1383,7 @@ body:has(.login-form) .hero-glow {
     padding: 40px;
     max-width: 420px;
     width: 100%;
-    margin: 32px auto 0;
+    margin: 0 auto;
 }
 
 .form-group {
@@ -1464,12 +1470,14 @@ body:has(.login-form) .hero-glow {
 /* ===== REGISTRATION PAGE ===== */
 /* Overrides for hero section on registration page */
 body:has(.registration-form) .hero {
-    align-items: flex-start;
-    padding-top: calc(var(--nav-height) + 120px);
+    align-items: center;
+    padding-top: calc(var(--nav-height) + 40px);
 }
 
 body:has(.registration-form) .hero-glow {
-    top: 2%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 body:has(.registration-form) .hero-content {
@@ -1484,32 +1492,36 @@ body:has(.registration-form) .hero-content {
     padding: 40px;
     max-width: 420px;
     width: 100%;
-    margin: 32px auto 0;
+    margin: 0 auto;
 }
 
 /* ===== QUIZ PAGE ===== */
 .quiz-section {
     min-height: 100vh;
-    padding: calc(var(--nav-height) + 60px) 24px 60px;
+    padding: calc(var(--nav-height) + 40px) 24px 40px;
     position: relative;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .quiz-glow {
     position: absolute;
-    top: 10%;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(139, 92, 246, 0.25) 0%, transparent 70%);
-    filter: blur(60px);
+    transform: translate(-50%, -50%);
+    width: 1000px;
+    height: 900px;
+    background: radial-gradient(ellipse, var(--accent-glow-strong) 0%, transparent 70%);
+    filter: blur(80px);
     pointer-events: none;
     z-index: 0;
 }
 
 .quiz-container {
     max-width: 800px;
+    width: 100%;
     margin: 0 auto;
     position: relative;
     z-index: 1;
@@ -1530,11 +1542,11 @@ body:has(.registration-form) .hero-content {
     right: 24px;
     font-size: 0.9rem;
     font-weight: 500;
-    color: rgba(139, 92, 246, 0.9);
-    background: rgba(139, 92, 246, 0.15);
+    color: rgba(56, 189, 248, 0.9);
+    background: rgba(56, 189, 248, 0.15);
     padding: 6px 14px;
     border-radius: 8px;
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    border: 1px solid rgba(56, 189, 248, 0.3);
 }
 
 .question {
@@ -1567,8 +1579,8 @@ body:has(.registration-form) .hero-content {
 }
 
 .option.selected {
-    background: rgba(139, 92, 246, 0.2);
-    border-color: #8b5cf6;
+    background: rgba(56, 189, 248, 0.2);
+    border-color: #38bdf8;
     color: #fff;
 }
 
@@ -1599,8 +1611,8 @@ body:has(.registration-form) .hero-content {
 .quiz-result {
     text-align: center;
     padding: 32px;
-    background: rgba(139, 92, 246, 0.1);
-    border: 2px solid rgba(139, 92, 246, 0.3);
+    background: rgba(56, 189, 248, 0.1);
+    border: 2px solid rgba(56, 189, 248, 0.3);
     border-radius: 16px;
     margin-top: 24px;
 }
@@ -1608,7 +1620,7 @@ body:has(.registration-form) .hero-content {
 .quiz-result h2 {
     font-size: 2rem;
     margin-bottom: 16px;
-    color: #8b5cf6;
+    color: #38bdf8;
 }
 
 .quiz-result p {
@@ -1627,7 +1639,7 @@ body:has(.registration-form) .hero-content {
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #8b5cf6, #6366f1);
+    background: linear-gradient(90deg, #38bdf8, #0ea5e9);
     transition: width 0.3s ease;
 }
 
@@ -1642,16 +1654,16 @@ body:has(.registration-form) .hero-content {
 
 .profile-glow {
     position: absolute;
-    top: 10%;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    width: 600px;
-    height: 600px;
+    transform: translate(-50%, -50%);
+    width: 1000px;
+    height: 900px;
     background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, transparent 70%);
     filter: blur(60px);
     pointer-events: none;
     z-index: 0;
-}
+}}
 
 .profile-container {
     max-width: 1000px;
@@ -2027,13 +2039,8 @@ body:has(.registration-form) .hero-content {
             margin: 0 auto 32px;
             padding: 18px 20px;
             border-radius: 18px;
-            background: rgba(124, 92, 255, 0.08);
-            border: 1px solid rgba(124, 92, 255, 0.18);
-            color: #e8e8ff;
-            line-height: 1.7;
-            font-size: 0.97rem;
-        }
-
+    background: rgba(56, 189, 248, 0.08);
+    border: 1px solid rgba(56, 189, 248, 0.18);
         .progress-wrapper {
             max-width: 760px;
             margin: 0 auto 40px;
@@ -2132,13 +2139,11 @@ body:has(.registration-form) .hero-content {
         }
 
         .answer-option:hover {
-            border-color: rgba(124, 92, 255, 0.35);
-            background: rgba(124, 92, 255, 0.06);
-        }
+    border-color: rgba(56, 189, 248, 0.35);
+    background: rgba(56, 189, 248, 0.06);
 
         .answer-option input[type="radio"] {
-            accent-color: #7c5cff;
-            cursor: pointer;
+    accent-color: #38bdf8;
         }
 
         .checklist-actions {
