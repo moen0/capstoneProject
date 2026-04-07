@@ -29,6 +29,8 @@ import getPromptsHandler from '../api/get-prompts.js';
 import deletePromptHandler from '../api/delete-prompt.js';
 import updateStatsHandler from '../api/update-stats.js';
 import getProfileHandler from '../api/get-profile.js';
+import getSecurityQuestionHandler from '../api/get-security-question.js';
+import resetPasswordHandler from '../api/reset-password.js';
 
 // Helper function to create mock Vercel-style request/response
 function createMockHandlers(req, res) {
@@ -85,6 +87,16 @@ app.post('/api/update-stats', async (req, res) => {
 app.get('/api/get-profile', async (req, res) => {
   const { mockReq, mockRes } = createMockHandlers(req, res);
   await getProfileHandler(mockReq, mockRes);
+});
+
+app.post('/api/get-security-question', async (req, res) => {
+  const { mockReq, mockRes } = createMockHandlers(req, res);
+  await getSecurityQuestionHandler(mockReq, mockRes);
+});
+
+app.post('/api/reset-password', async (req, res) => {
+  const { mockReq, mockRes } = createMockHandlers(req, res);
+  await resetPasswordHandler(mockReq, mockRes);
 });
 
 // Start server
