@@ -29,8 +29,8 @@ export default async function handler(req, res) {
 
     // Hent brukerinfo, stats og badges parallelt
     const [userResult, statsResult, badgesResult, promptsResult] = await Promise.all([
-      supabase.from('users').select('id, username, created_at').eq('id', userId).single(),
-      supabase.from('user_stats').select('*').eq('user_id', userId).single(),
+      supabase.from('users').select('id, username, created_at').eq('id', userId).maybeSingle(),
+      supabase.from('user_stats').select('*').eq('user_id', userId).maybeSingle(),
       supabase.from('user_badges').select('*').eq('user_id', userId),
       supabase.from('saved_prompts').select('*').eq('user_id', userId).order('created_at', { ascending: false })
     ]);

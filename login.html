@@ -70,7 +70,7 @@
         </div>
     </nav>
     <!--Login seksjon-->
-   <section class="hero">
+   <section class="hero hero-locked">
         <div class="hero-glow"></div>
         <div class="hero-content">
             <h1 class="hero-title">Sign In</h1>
@@ -103,9 +103,12 @@
                 <button type="submit" class="form-submit">Sign In</button>
 
                 <div class="form-footer">
-                    <a href="#" class="forgot-password">Forgot password?</a>
+                    <a href="forgot-password.html" class="forgot-password">Forgot password?</a>
                     <p>Don't have an account? <a href="registration.html">Sign up here</a></p>
                 </div>
+
+                <!-- Error message display -->
+                <div id="loginErrorMessage" style="display: none; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 12px; margin-top: 20px; color: #ff6b6b; text-align: center;"></div>
             </form>
         </div>
     </section>

@@ -71,7 +71,7 @@
     </nav>
 
     <!--Registration seksjon-->
-   <section class="hero">
+   <section class="hero hero-scrollable">
         <div class="hero-glow"></div>
         <div class="hero-content">
             <h1 class="hero-title">Sign Up</h1>
@@ -111,6 +111,36 @@
                         placeholder="••••••••"
                         required
                     >
+                    <small id="passwordMatch" style="display: none; margin-top: 8px; font-size: 0.875rem;"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="securityQuestion" class="form-label">Security Question</label>
+                    <select 
+                        id="securityQuestion" 
+                        name="securityQuestion" 
+                        class="form-input" 
+                        required
+                    >
+                        <option value="">Select a security question</option>
+                        <option value="pet">What was the name of your first pet?</option>
+                        <option value="city">In which city were you born?</option>
+                        <option value="school">What is the name of your elementary school?</option>
+                        <option value="teacher">What was your favorite teacher's name?</option>
+                        <option value="food">What is your favorite food?</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="securityAnswer" class="form-label">Security Answer</label>
+                    <input 
+                        type="text" 
+                        id="securityAnswer" 
+                        name="securityAnswer" 
+                        class="form-input" 
+                        placeholder="Your answer"
+                        required
+                    >
                 </div>
 
                 <button type="submit" class="form-submit">Create Account</button>
@@ -118,6 +148,9 @@
                 <div class="form-footer">
                     <p>Already have an account? <a href="login.html">Sign in here</a></p>
                 </div>
+
+                <!-- Error message display -->
+                <div id="errorMessage" style="display: none; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 12px; margin-top: 20px; color: #ff6b6b; text-align: center;"></div>
             </form>
         </div>
     </section>

@@ -38,13 +38,18 @@ html {
     scroll-behavior: smooth;
     scroll-padding-top: calc(var(--nav-height) + 20px);
     overflow-x: hidden;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE/Edge */
+    overflow-y: auto;
+    height: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-html::-webkit-scrollbar {
+/* Hide scrollbar for all browsers */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
     display: none;
+    width: 0;
+    height: 0;
 }
 
 body {
@@ -53,13 +58,10 @@ body {
     color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
+    overflow-y: auto;
+    height: 100%;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE/Edge */
-}
-
-/* Hide scrollbar for Chrome, Safari and Opera */
-body::-webkit-scrollbar {
-    display: none;
 }
 
 a {
@@ -423,15 +425,32 @@ a {
 
 /* ===== HERO SECTION ===== */
 .hero {
-    min-height: 100vh;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0 24px;
     position: relative;
-    overflow: hidden;
     background: var(--bg-primary);
+    overflow: hidden;
+}
+
+/* Lock scrolling for login page */
+.hero-locked {
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Allow natural scrolling for registration page */
+.hero-scrollable {
+    padding-top: calc(var(--nav-height) + 20px);
+    padding-bottom: 40px;
+    align-items: center;
+}
+
+.hero-scrollable .hero-content {
+    margin: 0 auto;
+    width: 100%;
 }
 
 .hero-glow {
@@ -444,6 +463,8 @@ a {
     background: radial-gradient(ellipse, var(--accent-glow-strong) 0%, transparent 70%);
     pointer-events: none;
     filter: blur(80px);
+    z-index: 0;
+    will-change: transform;
 }
 
 .hero-content {
@@ -452,6 +473,7 @@ a {
     margin: 0 auto;
     position: relative;
     z-index: 1;
+    will-change: transform;
 }
 
 .hero-title {
@@ -740,8 +762,8 @@ a {
         margin: 32px 20px 0;
     }
     
-    body:has(.login-form) .hero,
-    body:has(.registration-form) .hero {
+    .hero-locked,
+    .hero-scrollable {
         padding-top: calc(64px + 48px);
     }
     
@@ -1186,7 +1208,7 @@ a {
 
 .prompt-textarea {
     width: 100%;
-    min-height: 200px;
+    min-height: 45vh;
     padding: 16px;
     font-size: 0.95rem;
     font-family: var(--font-main);
@@ -1211,6 +1233,7 @@ a {
 .analyze-btn {
     width: 100%;
     padding: 14px;
+    margin-top: 32px;
     font-size: 1rem;
     font-weight: 500;
     font-family: var(--font-main);
@@ -1468,22 +1491,7 @@ body:has(.login-form) .hero-glow {
 }
 
 /* ===== REGISTRATION PAGE ===== */
-/* Overrides for hero section on registration page */
-body:has(.registration-form) .hero {
-    align-items: center;
-    padding-top: calc(var(--nav-height) + 40px);
-}
-
-body:has(.registration-form) .hero-glow {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-body:has(.registration-form) .hero-content {
-    margin: 0 auto;
-    width: 100%;
-}
+/* Styles moved to .hero-scrollable for better performance */
 
 .registration-form {
     background: var(--bg-card);
