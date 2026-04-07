@@ -228,29 +228,97 @@ const API_URL = window.location.hostname === 'localhost'
 const registrationForm = document.getElementById('registrationForm');
 
 if (registrationForm) {
+    // Get password fields
+    const passwordField = document.getElementById('password');
+    const confirmPasswordField = document.getElementById('confirmPassword');
+    const passwordMatchMessage = document.getElementById('passwordMatch');
+
+    // Live password matching validation
+    const checkPasswordMatch = () => {
+        const password = passwordField.value;
+        const confirmPassword = confirmPasswordField.value;
+
+        // Only show message if user has started typing in confirm field
+        if (confirmPassword.length > 0) {
+            passwordMatchMessage.style.display = 'block';
+            
+            if (password === confirmPassword) {
+                passwordMatchMessage.textContent = '✓ Passwords match';
+                passwordMatchMessage.style.color = '#10b981'; // green
+            } else {
+                passwordMatchMessage.textContent = '✗ Passwords do not match';
+                passwordMatchMessage.style.color = '#ef4444'; // red
+            }
+        } else {
+            passwordMatchMessage.style.display = 'none';
+        }
+    };
+
+    // Add event listeners for live validation
+    if (passwordField && confirmPasswordField && passwordMatchMessage) {
+        passwordField.addEventListener('input', checkPasswordMatch);
+        confirmPasswordField.addEventListener('input', checkPasswordMatch);
+    }
+
+    // Helper function to show error messages
+    const showError = (message) => {
+        const errorDiv = document.getElementById('errorMessage');
+        if (errorDiv) {
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            // Smooth scroll to error message
+            setTimeout(() => {
+                errorDiv.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+            }, 150);
+        } else {
+            alert(message);
+        }
+    };
+
+    const hideError = () => {
+        const errorDiv = document.getElementById('errorMessage');
+        if (errorDiv) {
+            errorDiv.style.display = 'none';
+        }
+    };
+
     registrationForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        hideError(); // Clear previous errors
         
         // Hent verdier fra skjemaet
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
+        const securityQuestion = document.getElementById('securityQuestion').value;
+        const securityAnswer = document.getElementById('securityAnswer').value;
         
         // Valider at passordene matcher
         if (password !== confirmPassword) {
-            alert('✗ Passwords do not match!');
+            showError('✗ Passwords do not match!');
             return;
         }
         
         // Valider passordlengde
         if (password.length < 6) {
-            alert('✗ Password must be at least 6 characters');
+            showError('✗ Password must be at least 6 characters');
             return;
         }
         
         // Valider brukernavn
         if (username.length < 3) {
-            alert('✗ Username must be at least 3 characters');
+            showError('✗ Username must be at least 3 characters');
+            return;
+        }
+
+        // Valider sikkerhetsspørsmål
+        if (!securityQuestion) {
+            showError('✗ Please select a security question');
+            return;
+        }
+
+        if (!securityAnswer || securityAnswer.length < 2) {
+            showError('✗ Security answer must be at least 2 characters');
             return;
         }
         
@@ -263,7 +331,9 @@ if (registrationForm) {
                 },
                 body: JSON.stringify({
                     username: username,
-                    password: password
+                    password: password,
+                    securityQuestion: securityQuestion,
+                    securityAnswer: securityAnswer
                 })
             });
             
@@ -278,7 +348,7 @@ if (registrationForm) {
             
         } catch (error) {
             console.error('Registreringsfeil:', error);
-            alert('✗ Registration failed: ' + (error.message || 'Something went wrong. Please try again.'));
+            showError('✗ Registration failed: ' + (error.message || 'Something went wrong. Please try again.'));
         }
     });
 }
@@ -287,8 +357,28 @@ if (registrationForm) {
 const loginForm = document.getElementById('loginForm');
 
 if (loginForm) {
+    // Helper function to show error messages
+    const showLoginError = (message) => {
+        const errorDiv = document.getElementById('loginErrorMessage');
+        if (errorDiv) {
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            // No scrolling needed on locked page
+        } else {
+            alert(message);
+        }
+    };
+
+    const hideLoginError = () => {
+        const errorDiv = document.getElementById('loginErrorMessage');
+        if (errorDiv) {
+            errorDiv.style.display = 'none';
+        }
+    };
+
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        hideLoginError(); // Clear previous errors
         
         // Hent verdier fra skjemaet
         const username = document.getElementById('username').value;
@@ -327,7 +417,7 @@ if (loginForm) {
         } catch (error) {
             console.error('Innloggingsfeil:', error);
             // Vis feilmelding
-            alert('✗ Login failed: ' + (error.message || 'Something went wrong. Please try again.'));
+            showLoginError('✗ Login failed: ' + (error.message || 'Invalid username or password'));
         }
     });
 }

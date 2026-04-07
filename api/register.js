@@ -25,24 +25,36 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { username, password } = req.body;
+    const { username, password, securityQuestion, securityAnswer } = req.body;
 
     // Valider input
     if (!username || !password) {
       return res.status(400).json({ 
-        error: 'Brukernavn og passord er påkrevd' 
+        error: 'Username and password are required' 
+      });
+    }
+
+    if (!securityQuestion || !securityAnswer) {
+      return res.status(400).json({ 
+        error: 'Security question and answer are required' 
       });
     }
 
     if (username.length < 3) {
       return res.status(400).json({ 
-        error: 'Brukernavnet må være minst 3 tegn' 
+        error: 'Username must be at least 3 characters' 
       });
     }
 
     if (password.length < 6) {
       return res.status(400).json({ 
-        error: 'Passordet må være minst 6 tegn' 
+        error: 'Password must be at least 6 characters' 
+      });
+    }
+
+    if (securityAnswer.length < 2) {
+      return res.status(400).json({ 
+        error: 'Security answer must be at least 2 characters' 
       });
     }
 
@@ -51,17 +63,18 @@ export default async function handler(req, res) {
       .from('users')
       .select('username')
       .eq('username', username)
-      .single();
+      .maybeSingle();
 
     if (existingUser) {
       return res.status(409).json({ 
-        error: 'Brukernavnet er allerede i bruk' 
+        error: 'Username is already taken' 
       });
     }
 
-    // Hash passordet med bcrypt
+    // Hash passordet og sikkerhetssvaret med bcrypt
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds);
+    const securityAnswerHash = await bcrypt.hash(securityAnswer.toLowerCase().trim(), saltRounds);
 
     // Lagre bruker i databasen
     const { data, error } = await supabase
@@ -69,7 +82,9 @@ export default async function handler(req, res) {
       .insert([
         {
           username: username,
-          password: passwordHash
+          password: passwordHash,
+          security_question: securityQuestion,
+          security_answer: securityAnswerHash
         }
       ])
       .select()
@@ -77,13 +92,18 @@ export default async function handler(req, res) {
 
     if (error) {
       console.error('Database error:', error);
-      throw error;
+      console.error('Full error details:', JSON.stringify(error, null, 2));
+      return res.status(500).json({ 
+        error: 'Database error: ' + (error.message || 'Could not create user'),
+        code: error.code,
+        hint: error.hint
+      });
     }
 
     // Returner suksess (ikke send passord tilbake!)
     return res.status(201).json({
       success: true,
-      message: 'Bruker registrert vellykket',
+      message: 'User registered successfully',
       user: {
         id: data.id,
         username: data.username,
@@ -93,9 +113,16 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('Registration error:', error);
+    console.error('Error name:', error.name);
+    console.error('Error message:', error.message);
+    console.error('Error stack:', error.stack);
+    
+    // Return detailed error information
     return res.status(500).json({ 
-      error: 'En feil oppstod under registrering',
-      details: error.message 
+      error: error.message || 'An error occurred during registration',
+      errorType: error.name,
+      details: 'Please check that: 1) Database is updated with security_question and security_answer columns, 2) All required fields are provided',
+      timestamp: new Date().toISOString()
     });
   }
 }

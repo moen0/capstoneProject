@@ -1,18 +1,33 @@
 -- ================================================
--- AI Guidebook Database Setup
+-- AI Guidebook Database Setup - FULL RESET
 -- ================================================
 -- Kjør dette scriptet i Supabase SQL Editor
 -- Project → SQL Editor → New Query → Lim inn dette
+-- 
+-- ⚠️ ADVARSEL: Dette sletter ALT i databasen!
+-- All brukerdata, prompts, statistikk og badges vil bli slettet.
 -- ================================================
 
--- Slett gammel users-tabell hvis den finnes
-DROP TABLE IF EXISTS users;
+-- ================================================
+-- STEP 1: DROP ALL TABLES (i riktig rekkefølge)
+-- ================================================
+-- Må droppe child tables først pga foreign keys
 
--- Opprett ny users-tabell med username og hashet passord
+DROP TABLE IF EXISTS user_badges CASCADE;
+DROP TABLE IF EXISTS user_stats CASCADE;
+DROP TABLE IF EXISTS saved_prompts CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+
+-- ================================================
+-- STEP 2: CREATE USERS TABLE
+-- ================================================
+
 CREATE TABLE users (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   username TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
+  security_question TEXT NOT NULL,
+  security_answer TEXT NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -42,8 +57,6 @@ CREATE POLICY "Users can update own data" ON users
 -- SAVED PROMPTS TABLE
 -- ================================================
 -- Lagrer brukerens beste prompts fra Prompt Helper
-
-DROP TABLE IF EXISTS saved_prompts;
 
 CREATE TABLE saved_prompts (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -81,8 +94,6 @@ CREATE POLICY "Users can delete own prompts" ON saved_prompts
 -- ================================================
 -- Holder styr på brukerens aktivitet for badge-systemet
 
-DROP TABLE IF EXISTS user_stats;
-
 CREATE TABLE user_stats (
   user_id UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
   prompt_helper_uses INTEGER DEFAULT 0,
@@ -113,8 +124,6 @@ CREATE POLICY "Users can update own stats" ON user_stats
 -- ================================================
 -- Holder styr på når brukere låser opp badges
 
-DROP TABLE IF EXISTS user_badges;
-
 CREATE TABLE user_badges (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -139,11 +148,29 @@ CREATE POLICY "Users can unlock badges" ON user_badges
   FOR INSERT
   WITH CHECK (true);
 
--- Verifiser at tabellene er opprettet
-SELECT 'users' as table_name, COUNT(*) as count FROM users
+-- ================================================
+-- VERIFICATION
+-- ================================================
+-- Verifiser at alle tabellene er opprettet (skal alle vise 0 rows)
+
+SELECT 'Database reset complete!' as status;
+
+SELECT 'users' as table_name, COUNT(*) as row_count FROM users
 UNION ALL
 SELECT 'saved_prompts', COUNT(*) FROM saved_prompts
 UNION ALL
 SELECT 'user_stats', COUNT(*) FROM user_stats
 UNION ALL
 SELECT 'user_badges', COUNT(*) FROM user_badges;
+
+-- ================================================
+-- SETUP COMPLETE
+-- ================================================
+-- Database er nå klar med:
+-- ✓ users (med security_question og security_answer)
+-- ✓ saved_prompts
+-- ✓ user_stats  
+-- ✓ user_badges
+-- ✓ Alle indexes og policies
+-- ✓ Ingen brukerdata
+-- ================================================
