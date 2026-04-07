@@ -1,6 +1,17 @@
 import { createClient } from '@supabase/supabase-js';
 
 export default async function handler(req, res) {
+  // CORS headers - must be set first!
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Handle OPTIONS preflight request
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   const supabase = createClient(
     process.env.SUPABASE_URL,
     process.env.SUPABASE_ANON_KEY
@@ -8,16 +19,6 @@ export default async function handler(req, res) {
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  // CORS
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
   }
 
   try {
@@ -39,6 +40,13 @@ export default async function handler(req, res) {
     if (error || !user) {
       return res.status(404).json({ 
         error: 'User not found' 
+      });
+    }
+
+    // Sjekk om brukeren har et sikkerhetsspørsmål
+    if (!user.security_question) {
+      return res.status(400).json({ 
+        error: 'This account was created before security questions were added. Please contact support or create a new account.' 
       });
     }
 
