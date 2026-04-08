@@ -442,3 +442,17 @@ accordionHeaders.forEach(header => {
         header.parentElement.classList.toggle('open');
     });
 });
+
+// Hero Scroll pil
+const scrollArrow = document.querySelector('.scroll-indicator');
+console.log('Found:', scrollArrow);
+
+if (scrollArrow) {
+    scrollArrow.addEventListener('click', () => {
+        console.log('Clicked!');
+        const features = document.querySelector('.features');
+        if (features) {
+            features.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+}

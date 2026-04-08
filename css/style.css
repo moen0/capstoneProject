@@ -433,6 +433,7 @@ a {
     position: relative;
     background: var(--bg-primary);
     overflow: hidden;
+    position: relative;
 }
 
 /* Lock scrolling for login page */
@@ -2229,4 +2230,38 @@ body:has(.login-form) .hero-glow {
     }
 }
 
+
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: bounce 2s infinite;
+    color: #888;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.scroll-indicator:hover {
+    color: #fff;
+}
+
+.scroll-indicator.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(10px); }
+}
+.scroll-indicator {
+    z-index: 100;
+}
+
+.hero-glow {
+    pointer-events: none;
+}
 /* TEST */
