@@ -19,15 +19,11 @@ async function savePrompt(prompt, analysis) {
     const user = window.AuthHelper?.getCurrentUser();
     
     if (!user) {
-        alert('Du må være innlogget for å lagre prompts');
-        window.location.href = 'login.html';
-        return;
+        return { success: false, error: 'You must be logged in to save prompts' };
     }
     
     if (!user.id) {
-        alert('Brukerdata mangler. Vennligst logg inn på nytt.');
-        console.error('User object:', user);
-        return;
+        return { success: false, error: 'User data missing. Please log in again.' };
     }
     
     try {
@@ -44,15 +40,10 @@ async function savePrompt(prompt, analysis) {
         });
         
         console.log('Save response:', response);
-        
-        if (response.success) {
-            alert('✓ Prompt saved to your profile!');
-        } else {
-            alert('Kunne ikke lagre prompt: ' + (response.error || 'Ukjent feil'));
-        }
+        return response;
     } catch (error) {
         console.error('Error saving prompt:', error);
-        alert('Kunne ikke lagre prompt: ' + error.message);
+        return { success: false, error: error.message };
     }
 }
 
@@ -439,32 +430,75 @@ function displayFeedback(analysis) {
     // ===== LEGG TIL LAGRE-KNAPP FOR GODE PROMPTS =====
     // Kun vis lagre-knapp hvis promptet er bra nok (score >= 50)
     const existingSaveBtn = feedback.querySelector('.save-prompt-btn');
+    const existingSaveMessage = feedback.querySelector('.save-message');
     if (existingSaveBtn) {
         existingSaveBtn.remove();
     }
+    if (existingSaveMessage) {
+        existingSaveMessage.remove();
+    }
     
     if (analysis.score >= 50) {
+        const saveContainer = document.createElement('div');
+        saveContainer.style.display = 'flex';
+        saveContainer.style.flexDirection = 'column';
+        saveContainer.style.alignItems = 'center';
+        saveContainer.style.gap = '12px';
+        saveContainer.style.marginTop = '20px';
+        
         const saveBtn = document.createElement('button');
         saveBtn.className = 'save-prompt-btn';
         saveBtn.innerHTML = '💾 Save Prompt to Profile';
+        
+        const saveMessage = document.createElement('div');
+        saveMessage.className = 'save-message';
+        saveMessage.style.display = 'none';
+        saveMessage.style.padding = '12px 24px';
+        saveMessage.style.borderRadius = '8px';
+        saveMessage.style.fontSize = '0.9rem';
+        saveMessage.style.fontWeight = '500';
+        saveMessage.style.textAlign = 'center';
+        
         saveBtn.onclick = async (e) => {
             e.preventDefault();
             if (currentAnalysis) {
                 saveBtn.disabled = true;
                 saveBtn.innerHTML = '⏳ Saving...';
-                try {
-                    await savePrompt(currentAnalysis.prompt, currentAnalysis.analysis);
+                saveMessage.style.display = 'none';
+                
+                const result = await savePrompt(currentAnalysis.prompt, currentAnalysis.analysis);
+                
+                if (result.success) {
                     saveBtn.innerHTML = '✓ Saved!';
+                    saveMessage.textContent = '✓ Prompt saved to your profile!';
+                    saveMessage.style.display = 'block';
+                    saveMessage.style.background = 'rgba(56, 189, 248, 0.1)';
+                    saveMessage.style.border = '1px solid rgba(56, 189, 248, 0.3)';
+                    saveMessage.style.color = '#38bdf8';
+                    
                     setTimeout(() => {
                         saveBtn.innerHTML = '💾 Save Prompt to Profile';
                         saveBtn.disabled = false;
-                    }, 2000);
-                } catch (error) {
-                    saveBtn.innerHTML = '✗ Failed - Try Again';
+                        saveMessage.style.display = 'none';
+                    }, 3000);
+                } else {
+                    saveBtn.innerHTML = '💾 Save Prompt to Profile';
                     saveBtn.disabled = false;
+                    saveMessage.textContent = '✗ ' + (result.error || 'Could not save prompt');
+                    saveMessage.style.display = 'block';
+                    saveMessage.style.background = 'rgba(239, 68, 68, 0.1)';
+                    saveMessage.style.border = '1px solid rgba(239, 68, 68, 0.3)';
+                    saveMessage.style.color = '#ff6b6b';
+                    
+                    setTimeout(() => {
+                        saveMessage.style.display = 'none';
+                    }, 3000);
                 }
             }
         };
-        feedback.appendChild(saveBtn);
+        
+        saveContainer.appendChild(saveBtn);
+        saveContainer.appendChild(saveMessage);
+        feedback.appendChild(saveContainer);
     }
 }
