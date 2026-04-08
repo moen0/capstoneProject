@@ -91,8 +91,7 @@ function updateNavbar() {
     const mobileLogoutBtn = document.getElementById('mobileLogoutBtn');
     
     if (currentUser && currentUser.username) {
-        // User is logged in - show dropdown, hide "Get Started"
-        if (navGetStarted) navGetStarted.classList.add('hidden');
+        // User is logged in - show dropdown, keep "Get Started" hidden
         if (userDropdown) userDropdown.classList.remove('hidden');
         
         // Set username and avatar initial
