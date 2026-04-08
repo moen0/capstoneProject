@@ -722,7 +722,9 @@ a {
     .hero-glow {
         width: 90vw;
         height: 400px;
-        top: 30%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
     
     .hero-content {
