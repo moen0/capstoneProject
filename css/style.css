@@ -443,6 +443,9 @@ a {
 
 /* Allow natural scrolling for registration page */
 .hero-scrollable {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
     padding-top: calc(var(--nav-height) + 20px);
     padding-bottom: 40px;
     align-items: center;
@@ -608,8 +611,14 @@ a {
 
 /* ===== FOOTER ===== */
 .footer {
-    padding: 60px 24px 24px;
+    padding: 20px 24px;
     border-top: 1px solid var(--border);
+    text-align: center;
+}
+
+.footer p {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.35);
 }
 
 .footer-container {
