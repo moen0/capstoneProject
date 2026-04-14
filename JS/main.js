@@ -1,3 +1,16 @@
+// ===== SET ACTIVE NAV LINK BASED ON CURRENT PAGE =====
+(function() {
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.nav-link').forEach(link => {
+        const linkPage = link.getAttribute('href');
+        if (linkPage === currentPage) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+})();
+
 // ===== NAVBAR SLIDING HIGHLIGHT =====
 const navMenu = document.querySelector('.nav-menu');
 const navItems = document.querySelectorAll('.nav-item');
