@@ -817,8 +817,8 @@ a {
     }
     
     /* Footer mobile */
-    footer {
-        padding: 48px 20px;
+    .footer {
+        padding: 16px 20px;
     }
     
     .footer-links {
@@ -2253,6 +2253,223 @@ body:has(.login-form) .hero-glow {
 
     .check-card {
         min-height: auto;
+    }
+}
+
+
+/* ===== LARGE SCREENS (1440px+) — 27" og større ===== */
+@media (min-width: 1440px) {
+    .nav-container {
+        max-width: 1400px;
+    }
+
+    .features-container {
+        max-width: 1200px;
+    }
+
+    .guidelines-section {
+        max-width: 960px;
+    }
+
+    .checklist-container {
+        max-width: 1000px;
+    }
+
+    .checklist-header {
+        max-width: 900px;
+    }
+
+    .important-note,
+    .progress-wrapper,
+    .check-card,
+    .result-box {
+        max-width: 860px;
+    }
+
+    .profile-container {
+        max-width: 1100px;
+    }
+
+    .prompt-container {
+        max-width: 1000px;
+    }
+
+    .quiz-container {
+        max-width: 900px;
+    }
+}
+
+/* ===== VERY LARGE SCREENS (1920px+) — stor 27", 32" ===== */
+@media (min-width: 1920px) {
+    .nav-container {
+        max-width: 1800px;
+    }
+
+    .features-container {
+        max-width: 1600px;
+    }
+
+    .feature-card {
+        max-width: 380px;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        margin-bottom: 72px;
+    }
+
+    .guidelines-section {
+        max-width: 1100px;
+    }
+
+    .checklist-container {
+        max-width: 1200px;
+    }
+
+    .checklist-header {
+        max-width: 1000px;
+    }
+
+    .important-note,
+    .progress-wrapper,
+    .check-card,
+    .result-box {
+        max-width: 1000px;
+    }
+
+    .profile-container {
+        max-width: 1300px;
+    }
+
+    .prompt-container {
+        max-width: 1200px;
+    }
+
+    .quiz-container {
+        max-width: 1050px;
+    }
+
+    .hero-glow {
+        width: 1400px;
+        height: 1200px;
+    }
+}
+
+/* ===== 4K / 32" (2560px+) ===== */
+@media (min-width: 2560px) {
+    :root {
+        --nav-height: 72px;
+    }
+
+    .nav-container {
+        max-width: 2400px;
+        padding: 0 48px;
+    }
+
+    .nav-link {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+
+    .logo {
+        font-size: 1.4rem;
+    }
+
+    .features-container {
+        max-width: 2200px;
+    }
+
+    .feature-card {
+        max-width: 440px;
+    }
+
+    .section-title {
+        font-size: 2.75rem;
+        margin-bottom: 80px;
+    }
+
+    .guidelines-section {
+        max-width: 1300px;
+        padding-top: calc(var(--nav-height) + 80px);
+    }
+
+    .checklist-container {
+        max-width: 1500px;
+    }
+
+    .checklist-header {
+        max-width: 1200px;
+    }
+
+    .important-note,
+    .progress-wrapper,
+    .check-card,
+    .result-box {
+        max-width: 1200px;
+    }
+
+    .profile-container {
+        max-width: 1600px;
+    }
+
+    .prompt-container {
+        max-width: 1500px;
+    }
+
+    .quiz-container {
+        max-width: 1300px;
+    }
+
+    .hero-glow {
+        width: 1800px;
+        height: 1600px;
+    }
+}
+
+/* ===== ULTRAWIDE 34" (3440px+) ===== */
+@media (min-width: 3440px) {
+    .nav-container {
+        max-width: 3200px;
+    }
+
+    .features-container {
+        max-width: 3000px;
+    }
+
+    .guidelines-section {
+        max-width: 1600px;
+    }
+
+    .checklist-container {
+        max-width: 1900px;
+    }
+
+    .checklist-header {
+        max-width: 1500px;
+    }
+
+    .important-note,
+    .progress-wrapper,
+    .check-card,
+    .result-box {
+        max-width: 1500px;
+    }
+
+    .profile-container {
+        max-width: 2000px;
+    }
+
+    .prompt-container {
+        max-width: 1900px;
+    }
+
+    .quiz-container {
+        max-width: 1700px;
+    }
+
+    .hero-glow {
+        width: 2400px;
+        height: 2000px;
     }
 }
 
