@@ -1,4 +1,10 @@
 {
+  "regions": ["dub1"],
+  "functions": {
+    "api/**/*.js": {
+      "region": "dub1"
+    }
+  },
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" }
   ]
