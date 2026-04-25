@@ -2,7 +2,7 @@
   "regions": ["dub1"],
   "functions": {
     "api/**/*.js": {
-      "region": "dub1"
+      "regions": ["dub1"]
     }
   },
   "rewrites": [
